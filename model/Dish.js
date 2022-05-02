@@ -14,12 +14,12 @@ const dishSchema = new Schema({
   meat: {
     type: ObjectID,
     ref: 'meats',
-    required: true,
+    // required: true,
   },
   category: {
     type: ObjectID,
     ref: 'categories',
-    required: true,
+    // required: true,
   },
   taigi: String,
   en: String,
