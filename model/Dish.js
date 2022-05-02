@@ -21,8 +21,12 @@ const dishSchema = new Schema({
     ref: 'categories',
     // required: true,
   },
-  taigi: String,
-  en: String,
+  taigi: {
+    type: String,
+  },
+  en: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('Dish', dishSchema);
