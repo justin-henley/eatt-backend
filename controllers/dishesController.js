@@ -26,8 +26,8 @@ const createNewDish = async (req, res) => {
       pinyin: req.body.pinyin,
       meat: req.body.meat,
       category: req.body.category,
-      taigi: req.body.taigi,
-      en: req.body.en,
+      taigi: req.body.taigi || null,
+      en: req.body.en || null,
     });
 
     res.status(201).json(result);
