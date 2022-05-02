@@ -18,11 +18,15 @@
   },
   "homepage": "https://github.com/justin-henley/Menu-Translation-Backend-MERN#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mongoose": "^6.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
