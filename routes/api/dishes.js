@@ -6,9 +6,10 @@ router
   .route('/')
   .get(dishesController.getAllDishes)
   .post(dishesController.createNewDish)
-  .put(dishesController.updateDish)
+  .patch(dishesController.updateDish)
   .delete(dishesController.deleteDish);
 
+// TODO this doesn't work, everything ends up at getAll above
 router.route('/:id').get(dishesController.getDish);
 
 module.exports = router;
