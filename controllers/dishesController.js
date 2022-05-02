@@ -11,9 +11,9 @@ const createNewDish = async (req, res) => {
   // Check if required parameters were provided
   if (
     !req?.body?.zhtw ||
-    !req?.body?.pinyin ||
+    !req?.body?.pinyin /* ||
     !req?.body?.meat ||
-    !req?.body?.category
+    !req?.body?.category */
   )
     return res
       .status(400)
