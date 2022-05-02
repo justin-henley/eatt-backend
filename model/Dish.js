@@ -3,17 +3,26 @@ const Schema = mongoose.Schema;
 const { ObjectID } = Schema.Types;
 
 const dishSchema = new Schema({
-  zhtw: String,
-  taigi: String,
-  en: String,
+  zhtw: {
+    type: String,
+    required: true,
+  },
+  pinyin: {
+    type: String,
+    required: true,
+  },
   meat: {
     type: ObjectID,
     ref: 'meats',
+    required: true,
   },
   category: {
     type: ObjectID,
     ref: 'categories',
+    required: true,
   },
+  taigi: String,
+  en: String,
 });
 
 module.exports = mongoose.model('Dish', dishSchema);
