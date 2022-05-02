@@ -9,7 +9,12 @@ const getAllDishes = async (req, res) => {
 
 const createNewDish = async (req, res) => {
   // Check if required parameters were provided
-  if (!req?.body?.zhtw || !req?.body?.meat || !req?.body?.category)
+  if (
+    !req?.body?.zhtw ||
+    !req?.body?.pinyin ||
+    !req?.body?.meat ||
+    !req?.body?.category
+  )
     return res
       .status(400)
       .json({ message: 'ZHTW Name, meat type, and category required.' });
@@ -18,10 +23,11 @@ const createNewDish = async (req, res) => {
   try {
     const result = await Dish.create({
       zhtw: req.body.zhtw,
-      taigi: req.body.taigi || '',
-      en: req.body.en || '',
+      pinyin: req.body.pinyin,
       meat: req.body.meat,
       category: req.body.category,
+      taigi: req.body.taigi || '',
+      en: req.body.en || '',
     });
 
     res.status(201).json(result);
@@ -42,10 +48,11 @@ const updateDish = async (req, res) => {
 
   // Update fields
   if (req.body?.zhtw) dish.zhtw = req.body.zhtw;
-  if (req.body?.taigi) dish.taigi = req.body.taigi;
-  if (req.body?.en) dish.en = req.body.en;
+  if (req.body?.pinyin) dish.pinyin = req.body.pinyin;
   if (req.body?.meat) dish.meat = req.body.meat;
   if (req.body?.category) dish.category = req.body.category;
+  if (req.body?.taigi) dish.taigi = req.body.taigi;
+  if (req.body?.en) dish.en = req.body.en;
 
   // Update the document
   const result = await dish.save();
