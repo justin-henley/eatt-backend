@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { ObjectID } = Schema.Types;
+const { String } = Schema.Types;
 
 const dishSchema = new Schema({
   zhtw: {
@@ -12,14 +12,14 @@ const dishSchema = new Schema({
     required: true,
   },
   meat: {
-    type: ObjectID,
-    ref: 'meats',
-    // required: true,
+    type: String,
+    enum: ['Beef', 'Bird', 'Fish', 'Veg', null],
+    required: true,
   },
   category: {
-    type: ObjectID,
-    ref: 'categories',
-    // required: true,
+    type: String,
+    enum: ['Rice', 'Noodle', 'Bread', 'Soup', 'Drink', null],
+    required: true,
   },
   taigi: {
     type: String,
