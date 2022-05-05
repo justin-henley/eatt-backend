@@ -13,12 +13,21 @@ const dishSchema = new Schema({
   },
   meat: {
     type: String,
-    enum: ['Beef', 'Pork', 'Bird', 'Fish', 'Veg', null],
+    enum: ['Beef', 'Pork', 'Bird', 'Fish', 'Veg', 'Unknown', 'Other', null],
     required: true,
   },
   category: {
     type: String,
-    enum: ['Rice', 'Noodle', 'Bread', 'Soup', 'Drink', null],
+    enum: [
+      'Rice',
+      'Noodle',
+      'Bread',
+      'Soup',
+      'Drink',
+      'Unknown',
+      'Other',
+      null,
+    ],
     required: true,
   },
   taigi: {
