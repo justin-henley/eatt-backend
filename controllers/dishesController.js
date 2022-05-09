@@ -3,11 +3,12 @@ const Dish = require('../model/Dish');
 const getAllDishes = async (req, res) => {
   let dishes;
 
-  if (req?.query) {  // Search based on url query
-    console.log(req.query.zhtw)
-    dishes = await searchDishes({...req.query});
-
-  } else {  // Return all dishes
+  if (req?.query) {
+    // Search based on url query
+    console.log(req.query.zhtw);
+    dishes = await searchDishes({ ...req.query });
+  } else {
+    // Return all dishes
     dishes = await Dish.find();
   }
 
@@ -116,7 +117,7 @@ const searchDishes = async (params) => {
 
   // Perform the search with the given parameters and return the result
   return await Dish.find(searchParams);
-}
+};
 
 module.exports = {
   getAllDishes,
