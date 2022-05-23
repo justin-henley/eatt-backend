@@ -112,8 +112,15 @@ const searchDishes = async (params) => {
   if (params.category) searchParams.category = params.category; // TODO this will need to check the categories table and populate with the object id, not the name
   if (params.meat) searchParams.meat = params.meat; // TODO this will need to check the meats table and populate with the object id, not the name
   if (params.taigi) searchParams.taigi = params.taigi; // TODO this should ignore accent marks if possible
-  if (params.pinyin) searchParams.pinyin = params.pinyin; // TODO this should ignore accent marks if possible
-
+  // Search with diacritics for precise searching
+  if (params.pinyin)
+    searchParams.pinyin = { $regex: params.pinyin, $options: 'i' };
+  // Search without diacritics for simpler searching
+  if (params.pinyinNoDiacritics)
+    searchParams.pinyinNoDiacritics = {
+      $regex: params.pinyinNoDiacritics,
+      $options: 'i',
+    };
   // Perform the search with the given parameters and return the result
   return await Dish.find(searchParams);
 };
