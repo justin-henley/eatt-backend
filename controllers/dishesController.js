@@ -118,7 +118,7 @@ const searchDishes = async (params) => {
   // Search without diacritics for simpler searching
   if (params.pinyinNoDiacritics)
     searchParams.pinyinNoDiacritics = {
-      $regex: params.pinyinNoDiacritics,
+      $regex: params.pinyinNoDiacritics.replace(/\s/g, ''),
       $options: 'i',
     };
   // Perform the search with the given parameters and return the result

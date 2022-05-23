@@ -50,7 +50,8 @@ const dishSchema = new Schema({
 dishSchema.pre('save', function (next) {
   this.pinyinNoDiacritics = this.pinyin
     .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '');
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/\s/g, '');
 
   next();
 });
