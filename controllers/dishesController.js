@@ -5,7 +5,6 @@ const getAllDishes = async (req, res) => {
 
   if (req?.query) {
     // Search based on url query
-    console.log(req.query.zhtw);
     dishes = await searchDishes({ ...req.query });
   } else {
     // Return all dishes
@@ -108,8 +107,8 @@ const searchDishes = async (params) => {
 
   // TODO explore MongoDB full-text search indexes for better search results
 
-  if (params.zhtw) searchParams.zhtw = params.zhtw;
-  if (params.en) searchParams.en = params.en; // TODO watch out for capitalization. Use locales and Mongo indexes or search indexes for this
+  if (params.zhtw) searchParams.zhtw = { $regex: params.zhtw };
+  if (params.en) searchParams.en = { $regex: params.en, $options: 'i' };
   if (params.category) searchParams.category = params.category; // TODO this will need to check the categories table and populate with the object id, not the name
   if (params.meat) searchParams.meat = params.meat; // TODO this will need to check the meats table and populate with the object id, not the name
   if (params.taigi) searchParams.taigi = params.taigi; // TODO this should ignore accent marks if possible
