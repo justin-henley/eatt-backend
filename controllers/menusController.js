@@ -1,4 +1,6 @@
 const Menu = require('../model/Menu');
+// TODO add a way to delete a single dish from a menu
+// TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 
 const getAllMenus = async (req, res) => {
   const menus = await Menu.find().populate('menu');
@@ -8,14 +10,25 @@ const getAllMenus = async (req, res) => {
 };
 
 const createNewMenu = async (req, res) => {
-  if (!req?.body?.zhtw)
+  // Checking for all required fields
+  if (!req?.body?.restaurant?.zhtw)
     return res.status(400).json({ message: 'ZHTW Name required.' });
+  if (!req?.body?.restaurant?.pinyin)
+    return res.status(400).json({ message: 'Pinyin Name required.' });
+  if (!req?.body?.restaurant?.en)
+    return res.status(400).json({ message: 'English Name required.' });
+  if (req?.body?.restaurant?.pinyinNoDiacritics)
+    return res
+      .status(400)
+      .json({ message: 'pinyinNoDiacritics should not be set manually.' });
 
   try {
     const result = await Menu.create({
-      zhtw: req.body.zhtw,
-      taigi: req.body.taigi || '',
-      en: req.body.en || '',
+      restaurant: {
+        zhtw: req.body.restaurant.zhtw,
+        pinyin: req.body.restaurant.pinyin || '',
+        en: req.body.restaurant.en || '',
+      },
       menu: req.body.menu || [],
     });
 
@@ -36,7 +49,7 @@ const updateMenu = async (req, res) => {
   if (!menu) return res.status(204).json({ message: 'No menu matches ID' });
 
   // Update fields
-  if (req.body?.zhtw) menu.zhtw = req.body.zhtw;
+  if (req.body?.restaurant?.zhtw) menu.zhtw = req.body.zhtw;
   if (req.body?.taigi) menu.taigi = req.body.taigi;
   if (req.body?.en) menu.en = req.body.en;
   if (req.body?.menu) menu.menu = req.body.menu;
