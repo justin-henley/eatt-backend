@@ -3,7 +3,7 @@ const Menu = require('../model/Menu');
 // TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 
 const getAllMenus = async (req, res) => {
-  const menus = await Menu.find().populate('menu');
+  const menus = await Menu.find().populate('menu.items');
 
   if (!menus) return res.status(204).json({ message: 'No menus found.' });
   res.json(menus);

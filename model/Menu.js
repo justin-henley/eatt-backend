@@ -26,10 +26,25 @@ const menuSchema = new Schema({
       default: '',
     },
   },
+  // Menu is divided into named sections. Sections should be labelled with zhtw, en, and pinyin. No need to strip pinyin for searching
   menu: [
     {
-      type: ObjectID,
-      ref: 'Dish',
+      zhtw: {
+        type: String,
+        required: true,
+        set: (x) => x.toLowerCase(),
+      },
+      pinyin: {
+        type: String,
+        required: true,
+        set: (x) => x.toLowerCase(),
+      },
+      en: {
+        type: String,
+        required: true,
+        set: (x) => x.toLowerCase(),
+      },
+      items: [{ type: ObjectID, ref: 'Dish' }],
     },
   ],
 });
