@@ -6,7 +6,7 @@ router
   .route('/')
   .get(menusController.getAllMenus)
   .post(menusController.createNewMenu)
-  .put(menusController.updateMenu)
+  .patch(menusController.updateMenu)
   .delete(menusController.deleteMenu);
 
 router.route('/:id').get(menusController.getMenu);
