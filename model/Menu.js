@@ -9,7 +9,7 @@ const menuSchema = new Schema({
   menu: [
     {
       type: ObjectID,
-      ref: 'dishes',
+      ref: 'Dish',
     },
   ],
 });
