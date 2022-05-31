@@ -1,7 +1,7 @@
 const Menu = require('../model/Menu');
 
 const getAllMenus = async (req, res) => {
-  const menus = await Menu.find();
+  const menus = await Menu.find().populate('menu');
 
   if (!menus) return res.status(204).json({ message: 'No menus found.' });
   res.json(menus);
