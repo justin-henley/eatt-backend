@@ -96,7 +96,7 @@ const getMenu = async (req, res) => {
     const id = ObjectId(req.params.id);
 
     // Attempt to find the specified menu
-    const menu = await Menu.findOne({ _id: id }).exec();
+    const menu = await Menu.findOne({ _id: id }).populate('menu.items').exec();
 
     if (!menu) {
       return res
