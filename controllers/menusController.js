@@ -1,4 +1,5 @@
 const Menu = require('../model/Menu');
+const { ObjectId } = require('mongodb');
 // TODO add a way to delete a single dish from a menu
 // TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 
@@ -90,17 +91,26 @@ const getMenu = async (req, res) => {
   if (!req?.params?.id)
     return res.status(400).json({ message: 'ID parameter required' });
 
-  // Attempt to find the specified menu
-  const menu = await Menu.findOne({ _id: req.params.id }).exec();
+  // Attempt to cast specified id to ObjectID
+  try {
+    const id = ObjectId(req.params.id);
 
-  if (!menu) {
-    return res
-      .status(204)
-      .json({ message: `No menu matches ID ${req.params.id}` });
+    // Attempt to find the specified menu
+    const menu = await Menu.findOne({ _id: id }).exec();
+
+    if (!menu) {
+      return res
+        .status(204)
+        .json({ message: `No menu matches ID ${req.params.id}` });
+    }
+
+    // Return the found menu
+    res.json(menu);
+  } catch (error) {
+    // The given id is not a valid Mongoose ObjectID
+    console.log('Menu not found');
+    return res.status(400).json({ message: 'Invalid menuId.' });
   }
-
-  // Return the found menu
-  res.json(menu);
 };
 
 const searchMenus = async (params) => {
