@@ -3,7 +3,8 @@ const Dish = require('../model/Dish');
 const getAllDishes = async (req, res) => {
   let dishes;
 
-  if (req?.query) {
+  // Check for a search query
+  if (Object.keys(req?.query).length !== 0) {
     // Search based on url query
     dishes = await searchDishes({ ...req.query });
   } else {
