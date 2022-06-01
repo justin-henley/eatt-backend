@@ -3,7 +3,16 @@ const Menu = require('../model/Menu');
 // TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 
 const getAllMenus = async (req, res) => {
-  const menus = await Menu.find().populate('menu.items');
+  let menus;
+
+  // Check for a search query
+  if (Object.keys(req?.query).length !== 0) {
+    // Search based on url query
+    menus = await searchMenus({ ...req.query });
+  } else {
+    // Return all dishes
+    menus = await Menu.find({}, '-menu').populate('menu.items');
+  }
 
   if (!menus) return res.status(204).json({ message: 'No menus found.' });
   res.json(menus);
@@ -92,6 +101,33 @@ const getMenu = async (req, res) => {
 
   // Return the found menu
   res.json(menu);
+};
+
+const searchMenus = async (params) => {
+  // Check to see what valid search parameters were provided
+  const searchParams = {};
+
+  // TODO explore MongoDB full-text search indexes for better search results
+
+  if (params.zhtw) searchParams['restaurant.zhtw'] = { $regex: params.zhtw };
+  if (params.en)
+    searchParams['restaurant.en'] = { $regex: params.en, $options: 'i' };
+
+  // Search with diacritics for precise searching
+  if (params.pinyin)
+    searchParams['restaurant.pinyin'] = {
+      $regex: params.pinyin,
+      $options: 'i',
+    };
+  // Search without diacritics for simpler searching
+  if (params.pinyinNoDiacritics)
+    searchParams['restaurant.pinyinNoDiacritics'] = {
+      $regex: params.pinyinNoDiacritics.replace(/\s/g, ''),
+      $options: 'i',
+    };
+
+  // Perform the search with the given parameters and return the result
+  return await Menu.find(searchParams, '-menu');
 };
 
 module.exports = {
