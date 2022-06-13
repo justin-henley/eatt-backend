@@ -6,6 +6,7 @@ const dishSchema = new Schema({
   zhtw: {
     type: String,
     required: true,
+    unique: true,
     set: (x) => x.toLowerCase(),
   },
   pinyin: {
@@ -15,31 +16,12 @@ const dishSchema = new Schema({
   },
   meat: {
     type: String,
-    enum: [
-      'beef',
-      'pork',
-      'bird',
-      'fish',
-      'veg',
-      'egg',
-      'unknown',
-      'other',
-      null,
-    ],
+    enum: ['beef', 'pork', 'bird', 'fish', 'veg', 'egg', 'unknown', 'other', null],
     //required: true,
   },
   category: {
     type: String,
-    enum: [
-      'rice',
-      'noodle',
-      'bread',
-      'soup',
-      'drink',
-      'unknown',
-      'other',
-      null,
-    ],
+    enum: ['rice', 'noodle', 'bread', 'soup', 'drink', 'unknown', 'other', null],
     //required: true,
   },
   taigi: {

@@ -24,9 +24,7 @@ const createNewDish = async (req, res) => {
     !req?.body?.meat ||
     !req?.body?.category */
   )
-    return res
-      .status(400)
-      .json({ message: 'ZHTW Name, meat type, and category required.' });
+    return res.status(400).json({ message: 'ZHTW Name, meat type, and category required.' });
 
   // Create the new dish and return
   try {
@@ -41,14 +39,16 @@ const createNewDish = async (req, res) => {
 
     res.status(201).json(result);
   } catch (error) {
-    console.error(error);
+    if (error.code === 11000)
+      res.status(400).json({ message: `Error: ${error.keyValue.zhtw} already exists in database.` });
+  } else {
+    res.status(500).json({ message: `An unknown error occurred.` });
   }
 };
 
 const updateDish = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified dish
   const dish = await Dish.findOne({ _id: req.body.id }).exec();
@@ -71,8 +71,7 @@ const updateDish = async (req, res) => {
 
 const deleteDish = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified dish
   const dish = await Dish.findOne({ _id: req.body.id }).exec();
@@ -87,15 +86,12 @@ const deleteDish = async (req, res) => {
 
 const getDish = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.params?.id)
-    return res.status(400).json({ message: 'ID parameter required' });
+  if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
 
   // Attempt to find specified dish
   const dish = await Dish.findOne({ _id: req.params.id }).exec();
   if (!dish) {
-    return res
-      .status(204)
-      .json({ message: `No dish matches ID ${req.params.id}` });
+    return res.status(204).json({ message: `No dish matches ID ${req.params.id}` });
   }
 
   // Return the found dish
@@ -114,8 +110,7 @@ const searchDishes = async (params) => {
   if (params.meat) searchParams.meat = params.meat; // TODO this will need to check the meats table and populate with the object id, not the name
   if (params.taigi) searchParams.taigi = params.taigi; // TODO this should ignore accent marks if possible
   // Search with diacritics for precise searching
-  if (params.pinyin)
-    searchParams.pinyin = { $regex: params.pinyin, $options: 'i' };
+  if (params.pinyin) searchParams.pinyin = { $regex: params.pinyin, $options: 'i' };
   // Search without diacritics for simpler searching
   if (params.pinyinNoDiacritics)
     searchParams.pinyinNoDiacritics = {
