@@ -7,7 +7,6 @@ const menuSchema = new Schema({
     zhtw: {
       type: String,
       required: true,
-      set: (x) => x.toLowerCase(),
     },
     pinyin: {
       type: String,
