@@ -39,10 +39,11 @@ const createNewDish = async (req, res) => {
 
     res.status(201).json(result);
   } catch (error) {
-    if (error.code === 11000)
+    if (error.code === 11000) {
       res.status(400).json({ message: `Error: ${error.keyValue.zhtw} already exists in database.` });
-  } else {
-    res.status(500).json({ message: `An unknown error occurred.` });
+    } else {
+      res.status(500).json({ message: `An unknown error occurred.` });
+    }
   }
 };
 
