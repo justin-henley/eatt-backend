@@ -34,7 +34,7 @@ app.all('*', (req, res) => {
   // Set response code
   res.status(404);
   // Send response as JSON
-  res.json({ error: '404 Not Found' });
+  res.json({ message: '404 Not Found' });
   // TODO an HTML version
 });
 
