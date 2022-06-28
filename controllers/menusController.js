@@ -1,3 +1,6 @@
+// For checking valid ObjectID
+const mongoose = require('mongoose');
+// Model
 const Menu = require('../model/Menu');
 const { ObjectId } = require('mongodb');
 // TODO add a way to delete a single dish from a menu
@@ -21,16 +24,11 @@ const getAllMenus = async (req, res) => {
 
 const createNewMenu = async (req, res) => {
   // Checking for all required fields
-  if (!req?.body?.restaurant?.zhtw)
-    return res.status(400).json({ message: 'ZHTW Name required.' });
-  if (!req?.body?.restaurant?.pinyin)
-    return res.status(400).json({ message: 'Pinyin Name required.' });
-  if (!req?.body?.restaurant?.en)
-    return res.status(400).json({ message: 'English Name required.' });
+  if (!req?.body?.restaurant?.zhtw) return res.status(400).json({ message: 'ZHTW Name required.' });
+  if (!req?.body?.restaurant?.pinyin) return res.status(400).json({ message: 'Pinyin Name required.' });
+  if (!req?.body?.restaurant?.en) return res.status(400).json({ message: 'English Name required.' });
   if (req?.body?.restaurant?.pinyinNoDiacritics)
-    return res
-      .status(400)
-      .json({ message: 'pinyinNoDiacritics should not be set manually.' });
+    return res.status(400).json({ message: 'pinyinNoDiacritics should not be set manually.' });
 
   try {
     const result = await Menu.create({
@@ -50,13 +48,12 @@ const createNewMenu = async (req, res) => {
 
 const updateMenu = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified menu
   const menu = await Menu.findOne({ _id: req.body.id }).exec();
 
-  if (!menu) return res.status(204).json({ message: 'No menu matches ID' });
+  if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
   // Update fields
   if (req.body?.restaurant?.zhtw) menu.zhtw = req.body.zhtw;
@@ -72,13 +69,12 @@ const updateMenu = async (req, res) => {
 
 const deleteMenu = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified menu
   const menu = await Menu.findOne({ _id: req.body.id }).exec();
 
-  if (!menu) return res.status(204).json({ message: 'No menu matches ID' });
+  if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
   // Delete the document
   const result = await menu.deleteOne({ _id: req.body.id });
@@ -88,29 +84,21 @@ const deleteMenu = async (req, res) => {
 
 const getMenu = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.params?.id)
-    return res.status(400).json({ message: 'ID parameter required' });
+  if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
-  // Attempt to cast specified id to ObjectID
-  try {
-    const id = ObjectId(req.params.id);
+  // Attempt to cast specified id to ObjectID to check validity
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid Menu ID.' });
 
-    // Attempt to find the specified menu
-    const menu = await Menu.findOne({ _id: id }).populate('menu.items').exec();
+  // Attempt to find the specified menu
+  const menu = await Menu.findOne({ _id: req.params.id }).populate('menu.items').exec();
 
-    if (!menu) {
-      return res
-        .status(204)
-        .json({ message: `No menu matches ID ${req.params.id}` });
-    }
-
-    // Return the found menu
-    res.json(menu);
-  } catch (error) {
-    // The given id is not a valid Mongoose ObjectID
-    console.log('Menu not found');
-    return res.status(400).json({ message: 'Invalid menuId.' });
+  // Menu not found
+  if (!menu) {
+    return res.status(204).json({ message: `Menu Not Found.` });
   }
+
+  // Return the found menu
+  res.json(menu);
 };
 
 const searchMenus = async (params) => {
@@ -120,8 +108,7 @@ const searchMenus = async (params) => {
   // TODO explore MongoDB full-text search indexes for better search results
 
   if (params.zhtw) searchParams['restaurant.zhtw'] = { $regex: params.zhtw };
-  if (params.en)
-    searchParams['restaurant.en'] = { $regex: params.en, $options: 'i' };
+  if (params.en) searchParams['restaurant.en'] = { $regex: params.en, $options: 'i' };
 
   // Search with diacritics for precise searching
   if (params.pinyin)
