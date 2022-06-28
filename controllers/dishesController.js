@@ -1,3 +1,6 @@
+// For checking valid ObjectId
+const mongoose = require('mongoose');
+// Model
 const Dish = require('../model/Dish');
 
 const getAllDishes = async (req, res) => {
@@ -40,7 +43,11 @@ const createNewDish = async (req, res) => {
     res.status(201).json(result);
   } catch (error) {
     if (error.code === 11000) {
-      res.status(400).json({ message: `Error: ${error.keyValue.zhtw} already exists in database.` });
+      res
+        .status(400)
+        .json({
+          message: `Error: ${error.keyValue.zhtw} already exists in database. Please do not duplicate entries.`,
+        });
     } else {
       res.status(500).json({ message: `An unknown error occurred.` });
     }
@@ -89,10 +96,13 @@ const getDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
 
+  // Attempt to cast specified id to ObjectID to check validity
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid Dish ID' });
+
   // Attempt to find specified dish
   const dish = await Dish.findOne({ _id: req.params.id }).exec();
   if (!dish) {
-    return res.status(204).json({ message: `No dish matches ID ${req.params.id}` });
+    return res.status(204).json({ message: `Dish Not Found.` });
   }
 
   // Return the found dish
