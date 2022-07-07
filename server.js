@@ -1,17 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-// const path = require('path');
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDb
 connectDB();
 
-// Use CORS - Currently allowing all origins
-app.use(cors());
+// Use CORS - Currently allowing only localhost and front end origins
+app.use(cors(corsOptions));
 
 // Middleware to handle url-encoded form data
 app.use(express.urlencoded({ extended: false }));
