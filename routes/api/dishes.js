@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const dishesController = require('../../controllers/dishesController');
+// Authentication
+const verifyJWT = require('../../middleware/verifyJWT');
 
+// Authentication required for post, patch, and delete
 router
   .route('/')
   .get(dishesController.getAllDishes)
-  .post(dishesController.createNewDish)
-  .patch(dishesController.updateDish)
-  .delete(dishesController.deleteDish);
+  .post(verifyJWT, dishesController.createNewDish)
+  .patch(verifyJWT, dishesController.updateDish)
+  .delete(verifyJWT, dishesController.deleteDish);
 
-// TODO this doesn't work, everything ends up at getAll above
+// Returns a single dish by id
 router.route('/:id').get(dishesController.getDish);
 
 module.exports = router;

@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const menusController = require('../../controllers/menusController');
+// Authentication
+const verifyJWT = require('../../middleware/verifyJWT');
 
+// Authentication required for post, patch, and delete
 router
   .route('/')
   .get(menusController.getAllMenus)
-  .post(menusController.createNewMenu)
-  .patch(menusController.updateMenu)
-  .delete(menusController.deleteMenu);
+  .post(verifyJWT, menusController.createNewMenu)
+  .patch(verifyJWT, menusController.updateMenu)
+  .delete(verifyJWT, menusController.deleteMenu);
 
 router.route('/:id').get(menusController.getMenu);
 
