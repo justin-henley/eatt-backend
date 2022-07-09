@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDb
@@ -20,17 +21,23 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware for JSON
 app.use(express.json());
 
+// Middleware for cookies
+app.use(cookieParser());
+
 // static files?
 
 // routes
 app.use('/', require('./routes/root'));
 
+// auth routes
+app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+
 // api endpoints
 app.use('/dishes', require('./routes/api/dishes'));
 app.use('/menus', require('./routes/api/menus'));
 app.use('/restaurants', require('./routes/api/restaurants'));
-app.use('/register', require('./routes/register'));
-app.use('/auth', require('./routes/auth'));
 
 // Universal 404 page
 app.all('*', (req, res) => {
