@@ -7,10 +7,14 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDb
 connectDB();
+
+// Add credentials header flag before hitting CORS
+app.use(credentials);
 
 // Use CORS - Currently allowing only localhost and front end origins
 app.use(cors(corsOptions));
