@@ -24,13 +24,25 @@ const handleLogin = async (req, res) => {
   // User found. Evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
+    // User roles
+    const roles = Object.values(foundUser.roles);
+
     // Create JWTs
-    const accessToken = jwt.sign({ username: foundUser.username }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '30s', // TODO set the higher for production
-    });
-    const refreshToken = jwt.sign({ username: foundUser.username }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: '1d', // TODO Check if appropriate for production
-    });
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          username: foundUser.username,
+          roles: roles,
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '30s' } // TODO set the higher for production
+    );
+    const refreshToken = jwt.sign(
+      { username: foundUser.username },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '1d' } // TODO Check if appropriate for production
+    );
 
     // Save refreshToken with current user to database
     // Allows invalidating the refresh token if the user logs out before the refresh token expires
@@ -41,7 +53,12 @@ const handleLogin = async (req, res) => {
     await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users));
 
     // Send refreshToken as httpOnly cookie, which is NOT available to JavaScript
-    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie('jwt', refreshToken, {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     res.json({ accessToken });
   } else {
     res.sendStatus(401);
