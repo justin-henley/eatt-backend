@@ -24,9 +24,10 @@ const handleNewUser = async (req, res) => {
       username: user,
       password: hashedPwd,
     };
+
     usersDB.setUsers([...usersDB.users, newUser]);
     await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users));
-    console.log('New User Created. Users:', usersDB.users);
+
     res.status(201).json({ message: `New user ${user} created.` });
   } catch (error) {
     res.status(500).json({ message: error.message });
