@@ -22,7 +22,9 @@ const handleLogout = async (req, res) => {
   const refreshToken = cookies.jwt;
   console.log(cookies.jwt);
   // Check if refresh token exists for some user
-  const foundUser = User.findOne({ refreshToken: refreshToken }).exec();
+  const foundUser = await (await User.findOne({ refreshToken: refreshToken }))
+    .select('username refreshToken -_id')
+    .exec();
 
   // User found in DB
   if (foundUser) {
