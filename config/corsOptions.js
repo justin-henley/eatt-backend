@@ -6,6 +6,7 @@ const corsOptions = {
       callback(null, true);
     } else {
       console.log('Denied origin: ', origin);
+      console.log('Allowed origins: ', allowedOrigins);
       callback(new Error('Not allowed by CORS'));
     }
   },
