@@ -22,9 +22,7 @@ const handleLogout = async (req, res) => {
   const refreshToken = cookies.jwt;
   console.log(cookies.jwt);
   // Check if refresh token exists for some user
-  const foundUser = await (await User.findOne({ refreshToken: refreshToken }))
-    .select('username refreshToken -_id')
-    .exec();
+  const foundUser = await User.findOne({ refreshToken: refreshToken }).select('username refreshToken ').exec();
 
   // User found in DB
   if (foundUser) {
@@ -38,7 +36,7 @@ const handleLogout = async (req, res) => {
   }
 
   // Clear the cookie
-  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' /* , secure: true */ }); // TODO uncomment for server, cannot do secure on localhost
   res.sendStatus(204); // No content
 };
 
