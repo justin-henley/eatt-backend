@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { ObjectID } = Schema.Types;
+const { String } = Schema.Types;
 
 const userSchema = new Schema({
   username: {
@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   refreshToken: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

@@ -1,4 +1,4 @@
-const usersDB = require('../model/User');
+const User = require('../model/User');
 /* const usersDB = {
   users: require('../model/users.json'),
   setUsers: function (data) {
@@ -19,7 +19,7 @@ const handleLogin = async (req, res) => {
   if (!user || !pwd) return res.status(400).json({ message: 'Username and password are required.' });
 
   // Check if user exists
-  const foundUser = usersDB.users.find((person) => person.username === user);
+  const foundUser = await User.findOne({ username: user }).exec();
   if (!foundUser) return res.sendStatus(401); // Unauthorized
 
   // User found. Evaluate password
@@ -47,12 +47,13 @@ const handleLogin = async (req, res) => {
 
     // Save refreshToken with current user to database
     // Allows invalidating the refresh token if the user logs out before the refresh token expires
-    // TODO add db
-    /* const result = await User. */
-    const otherUsers = usersDB.users.filter((person) => person.username !== foundUser.username);
+    /* const otherUsers = usersDB.users.filter((person) => person.username !== foundUser.username);
     const currentUser = { ...foundUser, refreshToken };
     usersDB.setUsers([...otherUsers, currentUser]);
-    await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users));
+    await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users)); */
+    // TODO remove old code
+    foundUser.refreshToken = refreshToken;
+    const result = await foundUser.save();
 
     // Send refreshToken as httpOnly cookie, which is NOT available to JavaScript
     res.cookie('jwt', refreshToken, {
