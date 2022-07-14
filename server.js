@@ -6,10 +6,15 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
+const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDb
 connectDB();
+
+// Add credentials header flag before hitting CORS
+app.use(credentials);
 
 // Use CORS - Currently allowing only localhost and front end origins
 app.use(cors(corsOptions));
@@ -20,10 +25,19 @@ app.use(express.urlencoded({ extended: false }));
 // Middleware for JSON
 app.use(express.json());
 
+// Middleware for cookies
+app.use(cookieParser());
+
 // static files?
 
 // routes
 app.use('/', require('./routes/root'));
+
+// auth routes
+app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
 
 // api endpoints
 app.use('/dishes', require('./routes/api/dishes'));
