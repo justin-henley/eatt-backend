@@ -1,5 +1,6 @@
 const allowedOrigins = [
-  'https://menu-translation-frontend.herokuapp.com/',
+  'https://eatt-backend-test.herokuapp.com/dishes',
+  'https://eatt-backend-prod.herokuapp.com/dishes',
   'http://localhost:3500',
   'http://localhost:3000',
 ];
