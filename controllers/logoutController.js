@@ -16,11 +16,9 @@ const handleLogout = async (req, res) => {
 
   // Check if the jwt cookie was provided
   const cookies = req.cookies;
-  console.log(cookies);
   if (!cookies?.jwt) return res.sendStatus(204); // No content
 
   const refreshToken = cookies.jwt;
-  console.log(cookies.jwt);
   // Check if refresh token exists for some user
   const foundUser = await User.findOne({ refreshToken: refreshToken }).select('username refreshToken ').exec();
 

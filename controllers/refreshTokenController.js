@@ -13,7 +13,6 @@ require('dotenv').config();
 const handleRefreshToken = async (req, res) => {
   // Check if the jwt cookie was provided
   const cookies = req.cookies;
-  console.log('refresh cookie: ', cookies);
 
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
@@ -25,7 +24,6 @@ const handleRefreshToken = async (req, res) => {
   // User found. Evaluate jwt
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
     // Reject
-    console.log(foundUser.username, decoded.username, foundUser);
     if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
 
     // Accept
