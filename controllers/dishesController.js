@@ -1,6 +1,6 @@
-// For checking valid ObjectId
+// Libraries
 const mongoose = require('mongoose');
-// Model
+// Models
 const Dish = require('../model/Dish');
 
 const getAllDishes = async (req, res) => {
@@ -43,11 +43,9 @@ const createNewDish = async (req, res) => {
     res.status(201).json(result);
   } catch (error) {
     if (error.code === 11000) {
-      res
-        .status(400)
-        .json({
-          message: `Error: ${error.keyValue.zhtw} already exists in database. Please do not duplicate entries.`,
-        });
+      res.status(400).json({
+        message: `Error: ${error.keyValue.zhtw} already exists in database. Please do not duplicate entries.`,
+      });
     } else {
       res.status(500).json({ message: `An unknown error occurred.` });
     }

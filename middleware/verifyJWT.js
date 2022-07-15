@@ -1,7 +1,7 @@
+// Libraries
 const { request } = require('express');
 const { sendStatus } = require('express/lib/response');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const verifyJWT = (req, res, next) => {
   // Get the auth header

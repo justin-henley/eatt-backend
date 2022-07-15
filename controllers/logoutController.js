@@ -1,15 +1,5 @@
+// Models
 const User = require('../model/User');
-
-// TODO Replace with DB
-/* const fsPromises = require('fs').promises;
-const path = require('path');
-
-const usersDB = {
-  users: require('../model/users.json'),
-  setUsers: function (data) {
-    this.users = data;
-  },
-}; */
 
 const handleLogout = async (req, res) => {
   // TODO On client (front end), ALSO delete the access token
@@ -25,12 +15,8 @@ const handleLogout = async (req, res) => {
   // User found in DB
   if (foundUser) {
     // Delete the found refresh token from database
-    /* const otherUsers = usersDB.users.filter((person) => person.refreshToken !== foundUser.refreshToken);
-    const currentUser = { ...foundUser, refreshToken: '' };
-    usersDB.setUsers([...otherUsers, currentUser]);
-    await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users)); */
     foundUser.refreshToken = '';
-    const result = await foundUser.save();
+    const result = await foundUser.save(); // TODO unused var
   }
 
   // Clear the cookie

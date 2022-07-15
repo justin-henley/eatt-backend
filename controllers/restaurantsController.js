@@ -1,11 +1,11 @@
+// Models
 const Restaurant = require('../model/Restaurant');
 
 const getAllRestaurants = async (req, res) => {
   // Find all restaurants
   const restaurants = await Restaurant.find();
   // Report failure if none found
-  if (!restaurants)
-    return res.status(204).json({ message: 'No restaurants found.' });
+  if (!restaurants) return res.status(204).json({ message: 'No restaurants found.' });
   // Return all restaurants found
   res.json(restaurants);
 };
@@ -36,14 +36,12 @@ const createNewRestaurant = async (req, res) => {
 
 const updateRestaurant = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified dish
   const restaurant = await Restaurant.findOne({ _id: req.body.id }).exec();
 
-  if (!restaurant)
-    return res.status(204).json({ message: 'No restaurant matches ID' });
+  if (!restaurant) return res.status(204).json({ message: 'No restaurant matches ID' });
 
   // Update fields
   if (req.body?.zhtw) restaurant.zhtw = req.body.zhtw;
@@ -63,14 +61,12 @@ const updateRestaurant = async (req, res) => {
 
 const deleteRestaurant = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.body?.id)
-    return res.status(400).json({ message: 'ID parameter required.' });
+  if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified restaurant
   const restaurant = await Restaurant.findOne({ _id: req.body.id }).exec();
 
-  if (!restaurant)
-    return res.status(204).json({ message: 'No restaurant matches ID' });
+  if (!restaurant) return res.status(204).json({ message: 'No restaurant matches ID' });
 
   // Delete the document
   const result = await restaurant.deleteOne({ _id: req.body.id });
@@ -80,15 +76,12 @@ const deleteRestaurant = async (req, res) => {
 
 const getRestaurant = async (req, res) => {
   // Check if an ID was provided
-  if (!req?.params?.id)
-    return res.status(400).json({ message: 'ID parameter required' });
+  if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
 
   // Attempt to find specified restaurant
   const restaurant = await Restaurant.findOne({ _id: req.params.id }).exec();
   if (!restaurant) {
-    return res
-      .status(204)
-      .json({ message: `No restaurant matches ID ${req.params.id}` });
+    return res.status(204).json({ message: `No restaurant matches ID ${req.params.id}` });
   }
 
   // Return the found restaurant

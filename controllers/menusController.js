@@ -1,8 +1,9 @@
-// For checking valid ObjectID
+// Libraries
 const mongoose = require('mongoose');
-// Model
-const Menu = require('../model/Menu');
 const { ObjectId } = require('mongodb');
+// Models
+const Menu = require('../model/Menu');
+
 // TODO add a way to delete a single dish from a menu
 // TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 

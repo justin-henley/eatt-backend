@@ -1,15 +1,7 @@
-const User = require('../model/User');
-
-/* const usersDB = {
-  users: require('../model/users.json'),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
-const fsPromises = require('fs').promises;
-const path = require('path'); */
-
+// Libraries
 const bcrypt = require('bcrypt');
+// Models
+const User = require('../model/User');
 
 const handleNewUser = async (req, res) => {
   // Check if username and password were provided
@@ -33,11 +25,6 @@ const handleNewUser = async (req, res) => {
 
     // Respond with success
     res.status(201).json({ message: `New user ${user} created.` });
-
-    /* usersDB.setUsers([...usersDB.users, newUser]);
-    await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users));
-
-    res.status(201).json({ message: `New user ${user} created.` }); */
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,14 +1,7 @@
-const User = require('../model/User');
-
+// Libraries
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
-
-/* const usersDB = {
-  users: require('../model/users.json'),
-  setUsers: function (data) {
-    this.users = data;
-  },
-}; */
+// Models
+const User = require('../model/User');
 
 const handleRefreshToken = async (req, res) => {
   // Check if the jwt cookie was provided

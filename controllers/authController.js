@@ -1,17 +1,8 @@
-const User = require('../model/User');
-/* const usersDB = {
-  users: require('../model/users.json'),
-  setUsers: function (data) {
-    this.users = data;
-  },
-}; */
-
-const bcrypt = require('bcrypt');
-
+// Libraries
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
-/* const fsPromises = require('fs').promises;
-const path = require('path'); */
+const bcrypt = require('bcrypt');
+// Models
+const User = require('../model/User');
 
 const handleLogin = async (req, res) => {
   // Check if username and password were provided
@@ -47,11 +38,6 @@ const handleLogin = async (req, res) => {
 
     // Save refreshToken with current user to database
     // Allows invalidating the refresh token if the user logs out before the refresh token expires
-    /* const otherUsers = usersDB.users.filter((person) => person.username !== foundUser.username);
-    const currentUser = { ...foundUser, refreshToken };
-    usersDB.setUsers([...otherUsers, currentUser]);
-    await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDB.users)); */
-    // TODO remove old code
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
 
