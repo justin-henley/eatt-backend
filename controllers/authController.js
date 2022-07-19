@@ -42,12 +42,34 @@ const handleLogin = async (req, res) => {
     );
 
     // Remove any refresh tokens currently stored in the jwt cookie
-    const newRefreshTokenArray = !cookies?.jwt
+    let newRefreshTokenArray = !cookies?.jwt
       ? foundUser.refreshToken
       : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
 
     // Clear the cookie
-    if (cookies.jwt) res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // Comment out 'secure:true' for local development with postman/thunderclient
+    if (cookies?.jwt) {
+      /*
+        1 Possible Scenario:
+          1) User logs in but never uses Refresh Token and does not logout
+          2) Refresh Token is stolen
+          3) If 1 & 2, reuse detection is needed to clear all RTs when user logs in
+
+          If someone stole the refresh token and the user never used it, they could generate new RTs. These must all be cleared out if detected, otherwise the attacker could remain logged in
+          The stolen token is in the users cookie sent at login, then would be found to be missing from DB because it was already used by an attacker
+      */
+
+      const refreshToken = cookies.jwt;
+      const foundToken = await User.findOne({ refreshToken }).exec();
+
+      // Detected refresh token reuse!
+      if (!foundToken) {
+        console.log('Attempted refresh token reuse at login!');
+        // Clear out ALL previous refresh tokens
+        newRefreshTokenArray = [];
+      }
+
+      res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // Comment out 'secure:true' for local development with postman/thunderclient
+    }
 
     // Save refreshToken with current user to database
     // Allows invalidating the refresh token if the user logs out before the refresh token expires
