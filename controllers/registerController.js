@@ -18,9 +18,7 @@ const handleNewUser = async (req, res) => {
 
     const result = await User.create({
       username: user,
-      roles: { User: 2001 },
       password: hashedPwd,
-      refreshToken: null,
     });
 
     // Respond with success
