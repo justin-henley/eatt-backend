@@ -5,7 +5,7 @@ const credentials = (req, res, next) => {
 
   // Credentials if provided
   if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Credential', true);
+    res.header('Access-Control-Allow-Credentials', true);
   } else {
     // Allow all origins for non-credentialed requests
     // TODO should this be handled in the cors middleware?
