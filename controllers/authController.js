@@ -17,7 +17,7 @@ const handleLogin = async (req, res) => {
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
     // User roles
-    const roles = Object.values(foundUser.roles);
+    const roles = Object.values(foundUser.roles).filter(Boolean);
 
     // Create JWTs
     const accessToken = jwt.sign(
@@ -48,7 +48,7 @@ const handleLogin = async (req, res) => {
       secure: true, // Uncomment for local development with postman/thunderclient
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+    res.json({ roles, accessToken });
   } else {
     res.sendStatus(401);
   }
