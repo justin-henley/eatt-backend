@@ -16,11 +16,11 @@ const handleLogout = async (req, res) => {
   if (foundUser) {
     // Delete the found refresh token from database
     foundUser.refreshToken = '';
-    const result = await foundUser.save(); // TODO unused var
+    const result = await foundUser.save(); // unused var
   }
 
   // Clear the cookie
-  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' /* , secure: true */ }); // TODO uncomment for server, cannot do secure on localhost
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // Uncomment for local development with postman/thunderclient
   res.sendStatus(204); // No content
 };
 

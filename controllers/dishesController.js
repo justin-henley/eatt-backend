@@ -115,9 +115,9 @@ const searchDishes = async (params) => {
 
   if (params.zhtw) searchParams.zhtw = { $regex: params.zhtw };
   if (params.en) searchParams.en = { $regex: params.en, $options: 'i' };
-  if (params.category) searchParams.category = params.category; // TODO this will need to check the categories table and populate with the object id, not the name
-  if (params.meat) searchParams.meat = params.meat; // TODO this will need to check the meats table and populate with the object id, not the name
-  if (params.taigi) searchParams.taigi = params.taigi; // TODO this should ignore accent marks if possible
+  if (params.category) searchParams.category = params.category;
+  if (params.meat) searchParams.meat = params.meat;
+  if (params.taigi) searchParams.taigi = params.taigi; // This should be expanded to ignore accent marks if used. See pinyin below
   // Search with diacritics for precise searching
   if (params.pinyin) searchParams.pinyin = { $regex: params.pinyin, $options: 'i' };
   // Search without diacritics for simpler searching

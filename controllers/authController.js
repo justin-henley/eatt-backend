@@ -28,12 +28,12 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '30s' } // TODO set the higher for production
+      { expiresIn: '30m' } // Adjust as needed
     );
     const refreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '1d' } // TODO Check if appropriate for production
+      { expiresIn: '1d' } // Adjust as needed
     );
 
     // Save refreshToken with current user to database
@@ -45,7 +45,7 @@ const handleLogin = async (req, res) => {
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       sameSite: 'None',
-      /* secure: true, */ //TODO uncomment for server
+      secure: true, // Uncomment for local development with postman/thunderclient
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({ accessToken });
