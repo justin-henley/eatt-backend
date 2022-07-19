@@ -9,7 +9,7 @@ const userSchema = new Schema({
     set: (x) => x.toLowerCase(),
   },
   roles: {
-    User: { type: Number, required: false },
+    User: { type: Number, required: false, default: 2001 },
     Editor: { type: Number, required: false },
     Admin: { type: Number, required: false },
   },
@@ -17,10 +17,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  refreshToken: {
-    type: String,
-    required: false,
-  },
+  refreshToken: [String],
 });
 
 module.exports = mongoose.model('User', userSchema);
