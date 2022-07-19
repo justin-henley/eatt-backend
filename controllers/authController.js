@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 // Models
 const User = require('../model/User');
+// Constants
+const { refreshTokenMaxAge, refreshTokenExpiresIn, accessTokenExpiresIn } = require('../config/constants');
 
 const handleLogin = async (req, res) => {
   // Check if username and password were provided
@@ -28,12 +30,12 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '30m' } // Adjust as needed
+      { expiresIn: accessTokenExpiresIn } // Adjust as needed
     );
     const refreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '1d' } // Adjust as needed
+      { expiresIn: refreshTokenExpiresIn } // Adjust as needed
     );
 
     // Save refreshToken with current user to database
@@ -45,8 +47,8 @@ const handleLogin = async (req, res) => {
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       sameSite: 'None',
-      secure: true, // Uncomment for local development with postman/thunderclient
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: true, // Comment out 'secure:true' for local development with postman/thunderclient
+      maxAge: refreshTokenMaxAge,
     });
     res.json({ accessToken });
   } else {
