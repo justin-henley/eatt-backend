@@ -7,6 +7,9 @@ const User = require('../model/User');
 const { refreshTokenMaxAge, refreshTokenExpiresIn, accessTokenExpiresIn } = require('../config/constants');
 
 const handleLogin = async (req, res) => {
+  // Get any cookies provided
+  const cookies = req.cookies;
+
   // Check if username and password were provided
   const { user, pwd } = req.body;
   if (!user || !pwd) return res.status(400).json({ message: 'Username and password are required.' });
@@ -32,19 +35,27 @@ const handleLogin = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: accessTokenExpiresIn } // Adjust as needed
     );
-    const refreshToken = jwt.sign(
+    const newRefreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: refreshTokenExpiresIn } // Adjust as needed
     );
 
+    // Remove any refresh tokens currently stored in the jwt cookie
+    const newRefreshTokenArray = !cookies?.jwt
+      ? foundUser.refreshToken
+      : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
+
+    // Clear the cookie
+    if (cookies.jwt) res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // Comment out 'secure:true' for local development with postman/thunderclient
+
     // Save refreshToken with current user to database
     // Allows invalidating the refresh token if the user logs out before the refresh token expires
-    foundUser.refreshToken = refreshToken;
+    foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
     const result = await foundUser.save();
 
     // Send refreshToken as httpOnly cookie, which is NOT available to JavaScript
-    res.cookie('jwt', refreshToken, {
+    res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       sameSite: 'None',
       secure: true, // Comment out 'secure:true' for local development with postman/thunderclient

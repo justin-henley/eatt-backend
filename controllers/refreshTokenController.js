@@ -16,7 +16,7 @@ const handleRefreshToken = async (req, res) => {
   res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // Comment out 'secure:true' for local development with postman/thunderclient
 
   // Check if refresh token exists for some user
-  const foundUser = await User.findOne({ refreshToken: refreshToken }).select('username refreshToken -_id').exec();
+  const foundUser = await User.findOne({ refreshToken: refreshToken }).select('username refreshToken').exec();
 
   // Detected refresh token reuse
   // If no user is found with this refresh token, that token has already been used and invalidated
@@ -24,6 +24,8 @@ const handleRefreshToken = async (req, res) => {
   if (!foundUser) {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
       if (err) return res.sendStatus(403); // Forbidden (Expired)
+      console.log('Attempted refresh token reuse detected!');
+
       // If the refresh token has been captured and reuses, decode the username and delete all refresh tokens for that user
       const hackedUser = await User.findOne({ username: decoded.username }).exec();
       hackedUser.refreshToken = [];
