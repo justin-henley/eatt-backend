@@ -33,12 +33,12 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: accessTokenExpiresIn } // Adjust as needed
+      { expiresIn: '10m' } // Adjust as needed
     );
     const newRefreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: refreshTokenExpiresIn } // Adjust as needed
+      { expiresIn: '1m' } // Adjust as needed
     );
 
     // Remove any refresh tokens currently stored in the jwt cookie
@@ -77,12 +77,15 @@ const handleLogin = async (req, res) => {
     const result = await foundUser.save();
 
     // Send refreshToken as httpOnly cookie, which is NOT available to JavaScript
+    // Shows up in "set-cookie" response header
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       sameSite: 'None',
       secure: true, // Comment out 'secure:true' for local development with postman/thunderclient
-      maxAge: refreshTokenMaxAge,
+      maxAge: 30000,
+      expiresIn: refreshTokenExpiresIn,
     });
+
     res.json({ roles, accessToken });
   } else {
     res.sendStatus(401);
