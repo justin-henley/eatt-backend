@@ -33,12 +33,12 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '10m' } // Adjust as needed
+      { expiresIn: accessTokenExpiresIn } // Adjust as needed
     );
     const newRefreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '1m' } // Adjust as needed
+      { expiresIn: refreshTokenExpiresIn } // Adjust as needed
     );
 
     // Remove any refresh tokens currently stored in the jwt cookie
@@ -82,7 +82,7 @@ const handleLogin = async (req, res) => {
       httpOnly: true,
       sameSite: 'None',
       secure: true, // Comment out 'secure:true' for local development with postman/thunderclient
-      maxAge: 30000,
+      maxAge: refreshTokenMaxAge,
       expiresIn: refreshTokenExpiresIn,
     });
 
