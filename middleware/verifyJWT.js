@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 
 const verifyJWT = (req, res, next) => {
   // Get the auth header
+  console.log('hello');
   const authHeader = req.headers.authorization || request.headers.Authorization;
-
+  console.log('auth headers: ', authHeader);
   // Ensure an auth header exists with a bearer token
   if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401); // Unauthorized
 
