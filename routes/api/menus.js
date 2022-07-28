@@ -11,7 +11,7 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router
   .route('/')
   .get(menusController.getAllMenus) // Anyone for now, but restrict if heavy usage and large database
-  .post(/* verifyJWT, verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ menusController.createNewMenu) // Editor or Admin
+  .post(verifyJWT, verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), menusController.createNewMenu) // Editor or Admin
   .patch(verifyJWT, verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), menusController.updateMenu) // Editor or Admin
   .delete(verifyJWT, verifyRoles(ROLES_LIST.Admin), menusController.deleteMenu); // Admin only
 

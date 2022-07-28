@@ -31,6 +31,7 @@ const dishSchema = new Schema({
     type: String,
     set: (x) => x.toLowerCase(),
   },
+  // TODO add user and timestamp of creation/modification. Maybe array for mods
   // Should not be set manually
   // The pre-save middleware strips the diacritics from the pinyin for easier searching
   pinyinNoDiacritics: {
