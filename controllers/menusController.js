@@ -33,6 +33,7 @@ const createNewMenu = async (req, res) => {
 
   try {
     const result = await Menu.create({
+      creator: req.body.creator,
       restaurant: {
         zhtw: req.body.restaurant.zhtw,
         pinyin: req.body.restaurant.pinyin || '',

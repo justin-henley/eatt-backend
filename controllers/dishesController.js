@@ -38,6 +38,7 @@ const createNewDish = async (req, res) => {
       category: req.body.category,
       taigi: req.body.taigi || null,
       en: req.body.en || null,
+      creator: req.body.creator,
     });
 
     res.status(201).json(result);
