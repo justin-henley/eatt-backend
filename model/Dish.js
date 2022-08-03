@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { String, Date } = Schema.Types;
+const { String, MongooseDate = Date } = Schema.Types;
 
 const dishSchema = new Schema({
   zhtw: {
@@ -39,7 +39,7 @@ const dishSchema = new Schema({
     default: '',
   },
   createdDate: {
-    type: Date,
+    type: MongooseDate,
   },
   creator: {
     type: String,

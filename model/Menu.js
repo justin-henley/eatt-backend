@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { ObjectID } = Schema.Types;
+const { ObjectID, String, MongooseDate = Date } = Schema.Types;
 
 const menuSchema = new Schema({
   creator: {
@@ -8,7 +8,7 @@ const menuSchema = new Schema({
     required: true,
   },
   createdDate: {
-    type: Date,
+    type: MongooseDate,
   },
   restaurant: {
     zhtw: {
