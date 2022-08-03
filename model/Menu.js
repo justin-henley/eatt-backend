@@ -3,6 +3,13 @@ const Schema = mongoose.Schema;
 const { ObjectID } = Schema.Types;
 
 const menuSchema = new Schema({
+  creator: {
+    type: String,
+    required: true,
+  },
+  createdDate: {
+    type: Date,
+  },
   restaurant: {
     zhtw: {
       type: String,
@@ -53,6 +60,7 @@ menuSchema.pre('save', function (next) {
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
     .replace(/\s/g, '');
+  this.createdDate = Date.now();
 
   next();
 });

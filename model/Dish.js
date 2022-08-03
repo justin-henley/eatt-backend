@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { String } = Schema.Types;
+const { String, Date } = Schema.Types;
 
 const dishSchema = new Schema({
   zhtw: {
@@ -38,14 +38,23 @@ const dishSchema = new Schema({
     type: String,
     default: '',
   },
+  createdDate: {
+    type: Date,
+  },
+  creator: {
+    type: String,
+    required: true,
+  },
 });
 
+// Set date to current time, and strip diacritics from pinyin
 dishSchema.pre('save', function (next) {
   this.pinyinNoDiacritics = this.pinyin
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
     .replace(/\s/g, '');
 
+  this.createdDate = Date.now();
   next();
 });
 
