@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { String } = Schema.Types;
 
+// TODO email, confirmed, plus add password recovery and email confirmations
 const userSchema = new Schema({
   username: {
     type: String,
