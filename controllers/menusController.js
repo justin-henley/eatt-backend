@@ -35,7 +35,7 @@ const createNewMenu = async (req, res) => {
   try {
     const result = await Menu.create({
       history: {
-        creator: req.body.creator,
+        creator: req.user,
         changelog: [],
       },
       restaurant: {
@@ -52,6 +52,7 @@ const createNewMenu = async (req, res) => {
   }
 };
 
+// TODO add history to update route
 const updateMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
@@ -73,6 +74,7 @@ const updateMenu = async (req, res) => {
   res.json(result);
 };
 
+// TODO log all delete operations in a separate collection. Include full item data, plus user and timestamp. Ensure nothing can be permanently deleted thru api
 const deleteMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });

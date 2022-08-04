@@ -40,7 +40,7 @@ const createNewDish = async (req, res) => {
       taigi: req.body.taigi || null,
       en: req.body.en || null,
       history: {
-        creator: req.body.creator,
+        creator: req.user,
         changelog: [],
       },
     });
@@ -57,6 +57,7 @@ const createNewDish = async (req, res) => {
   }
 };
 
+// TODO add history to update route
 const updateDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
@@ -80,6 +81,7 @@ const updateDish = async (req, res) => {
   res.json(result);
 };
 
+// TODO log all delete operations in a separate collection. Include full item data, plus user and timestamp. Ensure nothing can be permanently deleted thru api
 const deleteDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
