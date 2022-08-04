@@ -15,3 +15,5 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router
   .route('/')
   .get(verifyJWT, verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), changelogsController.getAllChangelogs); // Get all changelogs
+
+module.exports = router;
