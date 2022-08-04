@@ -38,12 +38,22 @@ const dishSchema = new Schema({
     type: String,
     default: '',
   },
-  createdDate: {
-    type: MongooseDate,
-  },
-  creator: {
-    type: String,
-    required: true,
+  history: {
+    creator: {
+      type: String,
+      required: true,
+    },
+    createdDate: {
+      type: MongooseDate,
+    },
+    // TODO make sure this is written correctly
+    changelog: [
+      {
+        user: String,
+        data: String,
+        timestamp: MongooseDate,
+      },
+    ],
   },
 });
 
@@ -54,7 +64,7 @@ dishSchema.pre('save', function (next) {
     .replace(/\p{Diacritic}/gu, '')
     .replace(/\s/g, '');
 
-  this.createdDate = Date.now();
+  this.history.createdDate = Date.now();
   next();
 });
 

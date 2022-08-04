@@ -3,12 +3,22 @@ const Schema = mongoose.Schema;
 const { ObjectID, String, MongooseDate = Date } = Schema.Types;
 
 const menuSchema = new Schema({
-  creator: {
-    type: String,
-    required: true,
-  },
-  createdDate: {
-    type: MongooseDate,
+  history: {
+    creator: {
+      type: String,
+      required: true,
+    },
+    createdDate: {
+      type: MongooseDate,
+    },
+    // TODO make sure this is written correctly
+    changelog: [
+      {
+        user: String,
+        data: String,
+        timestamp: MongooseDate,
+      },
+    ],
   },
   restaurant: {
     zhtw: {
