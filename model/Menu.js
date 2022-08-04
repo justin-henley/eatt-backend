@@ -71,7 +71,7 @@ menuSchema.pre('save', function (next) {
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
     .replace(/\s/g, '');
-  this.createdDate = Date.now();
+  this.history.createdDate = Date.now();
 
   next();
 });
