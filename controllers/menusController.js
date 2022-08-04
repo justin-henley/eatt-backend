@@ -24,6 +24,7 @@ const getAllMenus = async (req, res) => {
 };
 
 const createNewMenu = async (req, res) => {
+  // TODO if username is passed from frontend this could allow spoofing users thru postman. Decrypt username from auth token instead.
   // Checking for all required fields
   if (!req?.body?.restaurant?.zhtw) return res.status(400).json({ message: 'ZHTW Name required.' });
   if (!req?.body?.restaurant?.pinyin) return res.status(400).json({ message: 'Pinyin Name required.' });
@@ -33,7 +34,10 @@ const createNewMenu = async (req, res) => {
 
   try {
     const result = await Menu.create({
-      creator: req.body.creator,
+      history: {
+        creator: req.body.creator,
+        changelog: [],
+      },
       restaurant: {
         zhtw: req.body.restaurant.zhtw,
         pinyin: req.body.restaurant.pinyin || '',

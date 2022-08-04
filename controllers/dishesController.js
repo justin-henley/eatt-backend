@@ -20,6 +20,7 @@ const getAllDishes = async (req, res) => {
 };
 
 const createNewDish = async (req, res) => {
+  // TODO if username is passed from frontend this could allow spoofing users thru postman. Decrypt username from auth token instead.
   // Check if required parameters were provided
   if (
     !req?.body?.zhtw ||
@@ -38,7 +39,10 @@ const createNewDish = async (req, res) => {
       category: req.body.category,
       taigi: req.body.taigi || null,
       en: req.body.en || null,
-      creator: req.body.creator,
+      history: {
+        creator: req.body.creator,
+        changelog: [],
+      },
     });
 
     res.status(201).json(result);
