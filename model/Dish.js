@@ -34,6 +34,7 @@ const dishSchema = new Schema({
   // TODO add user and timestamp of creation/modification. Maybe array for mods
   // Should not be set manually
   // The pre-save middleware strips the diacritics from the pinyin for easier searching
+  // TODO pinyinNoDiacritics should be a virtual property!
   pinyinNoDiacritics: {
     type: String,
     default: '',

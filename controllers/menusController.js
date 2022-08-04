@@ -4,6 +4,36 @@ const { ObjectId } = require('mongodb');
 // Models
 const Menu = require('../model/Menu');
 
+// Simplified model
+/* Menu {
+  history: {
+    creator: String,
+    createdDate: Date,
+    changelog: [
+      {
+        user: String,
+        data: String,
+        timestamp: Date,
+      },
+    ],
+  },
+  restaurant: {
+    zhtw: String,
+    pinyin: String,
+    en: String,
+    // TODO pinyinNoDiacritics should be a virtual property!
+    pinyinNoDiacritics: VIRTUAL PROPERTY,
+  },
+  menu: [
+    {
+      zhtw: String,
+      pinyin: String,
+      en: String,
+      items: [{ type: ObjectID, ref: 'Dish' }],
+    },
+  ],
+}; */
+
 // TODO add a way to delete a single dish from a menu
 // TODO add a way to update a menu that adds the given dishes WITHOUT erasing those already stored
 
