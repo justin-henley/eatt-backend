@@ -24,7 +24,6 @@ const getAllMenus = async (req, res) => {
 };
 
 const createNewMenu = async (req, res) => {
-  // TODO if username is passed from frontend this could allow spoofing users thru postman. Decrypt username from auth token instead.
   // Checking for all required fields
   if (!req?.body?.restaurant?.zhtw) return res.status(400).json({ message: 'ZHTW Name required.' });
   if (!req?.body?.restaurant?.pinyin) return res.status(400).json({ message: 'Pinyin Name required.' });
@@ -63,10 +62,15 @@ const updateMenu = async (req, res) => {
   if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
   // Update fields
+  // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
   if (req.body?.restaurant?.zhtw) menu.zhtw = req.body.zhtw;
   if (req.body?.taigi) menu.taigi = req.body.taigi;
   if (req.body?.en) menu.en = req.body.en;
   if (req.body?.menu) menu.menu = req.body.menu;
+
+  // TODO I think changelog should be a separate collection to keep these entries lighter?
+  // Add entry history
+  menu.history.changelog = [...menu.history.changelog, { user: req.user, data: req.body, timestamp: Date.now() }];
 
   // Update the document
   const result = await menu.save();

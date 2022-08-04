@@ -3,6 +3,28 @@ const mongoose = require('mongoose');
 // Models
 const Dish = require('../model/Dish');
 
+// Simplified model
+/* Dish {
+  zhtw: String,
+  pinyin: String,
+  meat: enum: ['beef', 'pork', 'bird', 'fish', 'veg', 'egg', 'unknown', 'other', null],
+  category: enum: ['rice', 'noodle', 'bread', 'soup', 'drink', 'unknown', 'other', null],
+  taigi: String,
+  en: String,
+  pinyinNoDiacritics: VIRTUAL PROPERTY
+  history: {
+    creator: String,
+    createdDate: Date,
+    changelog: [
+      {
+        user: String,
+        data: String,
+        timestamp: MongooseDate,
+      },
+    ],
+  },
+}; */
+
 const getAllDishes = async (req, res) => {
   let dishes;
 
@@ -20,7 +42,6 @@ const getAllDishes = async (req, res) => {
 };
 
 const createNewDish = async (req, res) => {
-  // TODO if username is passed from frontend this could allow spoofing users thru postman. Decrypt username from auth token instead.
   // Check if required parameters were provided
   if (
     !req?.body?.zhtw ||
@@ -68,12 +89,17 @@ const updateDish = async (req, res) => {
   if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
 
   // Update fields
+  // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
   if (req.body?.zhtw) dish.zhtw = req.body.zhtw;
   if (req.body?.pinyin) dish.pinyin = req.body.pinyin;
   if (req.body?.meat) dish.meat = req.body.meat;
   if (req.body?.category) dish.category = req.body.category;
   if (req.body?.taigi) dish.taigi = req.body.taigi;
   if (req.body?.en) dish.en = req.body.en;
+
+  // Add entry to history
+  // TODO I think changelog should be a separate collection to keep these entries lighter?
+  dish.history.changelog = [...dish.history.changelog, { user: req.user, data: req.body, timestamp: Date.now() }];
 
   // Update the document
   const result = await dish.save();
