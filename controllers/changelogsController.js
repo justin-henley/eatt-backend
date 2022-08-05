@@ -88,4 +88,4 @@ const searchChangelogs = async (query) => {
 };
 
 // Exports do not include search function
-module.exports = { getChangelog, getAllChangelogs, createChangelog /* updateChangelog, deleteChangelog */ };
+module.exports = { getChangelog, getAllChangelogs /*, createChangelog, updateChangelog, deleteChangelog */ };

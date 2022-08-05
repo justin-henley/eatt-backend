@@ -56,4 +56,4 @@ const verifyUser = async (req, res) => {
   }
 };
 
-module.exports = { handleNewUser };
+module.exports = { handleNewUser, verifyUser };
