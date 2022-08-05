@@ -15,8 +15,29 @@ const createChangelog = async (req, res) => {
 };
 
 // TODO Read One
+const getChangelog = async (req, res) => {
+  // Check if an ID was provided
+  if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
+
+  // Cast ID to ObjectID type to check validity
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid Changelog ID' });
+
+  // Attempt to find specified changelog
+  const log = await Changelog.findById(req.params.id).exec();
+  if (!log) {
+    return res.status(204).json({ message: 'Changelog Not Found' });
+  }
+
+  // Return the found dish
+  res.json(log);
+};
 
 // TODO Read all or range
+const getAllChangelogs = async (req, res) => {
+  // Check for search parameters
+  // Query data
+  // Return data
+};
 
 // TODO Update
 
