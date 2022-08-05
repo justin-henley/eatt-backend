@@ -17,6 +17,7 @@ connectDB();
 app.use(credentials);
 
 // Use CORS - Currently allowing only localhost and front end origins
+// TODO this is definitely allowing all origins. Is credentials messing it up with the allowed-origins header?
 app.use(cors(corsOptions));
 
 // Middleware to handle url-encoded form data
@@ -43,7 +44,6 @@ app.use('/logout', require('./routes/logout'));
 app.use('/dishes', require('./routes/api/dishes'));
 app.use('/menus', require('./routes/api/menus'));
 /* app.use('/restaurants', require('./routes/api/restaurants')); */
-// TODO should this be exposed?
 app.use('/changelogs', require('./routes/api/changelogs'));
 
 // Universal 404 page
