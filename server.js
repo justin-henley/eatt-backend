@@ -43,6 +43,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/dishes', require('./routes/api/dishes'));
 app.use('/menus', require('./routes/api/menus'));
 app.use('/restaurants', require('./routes/api/restaurants'));
+// TODO should this be exposed?
 app.use('/changelogs', require('./routes/api/changelogs'));
 
 // Universal 404 page
