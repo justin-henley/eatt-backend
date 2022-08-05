@@ -6,8 +6,8 @@ const Changelog = require('../model/Changelog');
 // Simplified Model
 // TODO add once stable
 
-// Create
-const createChangelog = async (req, res) => {
+// Create - MOVED TO MIDDLEWARE logChanges.js
+/* const createChangelog = async (req, res) => {
   // Check that all required parameters are provided
   if (!req?.body?.user || !req?.body?.entryId || !req?.body?.ref || !req?.body?.data)
     return res
@@ -31,7 +31,7 @@ const createChangelog = async (req, res) => {
 
   // TODO failure should halt the change
 };
-
+ */
 // TODO Read One
 const getChangelog = async (req, res) => {
   // Check if an ID was provided
