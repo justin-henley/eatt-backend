@@ -21,6 +21,12 @@ const handleLogin = async (req, res) => {
   // User found. Evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
+    // Ensure user has confirmed their account
+    if (foundUser.status !== 'Active') {
+      return res
+        .status(401)
+        .send({ message: 'Pending account. Please click the verification link we sent to your email address.' });
+    }
     // User roles
     const roles = Object.values(foundUser.roles).filter(Boolean);
 
