@@ -38,4 +38,22 @@ const handleNewUser = async (req, res) => {
   }
 };
 
+const verifyUser = async (req, res) => {
+  // Find the user from the verification code
+  const user = User.findOne({ confirmationCode: req.params.confirmationCode });
+
+  if (!user) return res.status(404).json({ message: 'User not found.' });
+
+  user.status = 'Active';
+  try {
+    // Save the modified user
+    const result = await user.save();
+
+    // Announce success
+    return res.status(200).json({ message: 'User confirmed, you may log in.' });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
 module.exports = { handleNewUser };
