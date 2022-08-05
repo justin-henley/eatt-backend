@@ -82,12 +82,13 @@ const createNewMenu = async (req, res) => {
 };
 
 // TODO add history to update route
+// Menu.findOneAndUpdate is possible, but this versio allows for full validation and control
 const updateMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified menu
-  const menu = await Menu.findOne({ _id: req.body.id }).exec();
+  const menu = await Menu.findById(req.body.id).exec();
 
   if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
@@ -114,7 +115,7 @@ const deleteMenu = async (req, res) => {
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified menu
-  const menu = await Menu.findOne({ _id: req.body.id }).exec();
+  const menu = await Menu.findById(req.body.id).exec();
 
   if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
@@ -132,7 +133,7 @@ const getMenu = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid Menu ID.' });
 
   // Attempt to find the specified menu
-  const menu = await Menu.findOne({ _id: req.params.id }).populate('menu.items').exec();
+  const menu = await Menu.findById(req.params.id).populate('menu.items').exec();
 
   // Menu not found
   if (!menu) {

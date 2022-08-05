@@ -84,7 +84,7 @@ const updateDish = async (req, res) => {
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified dish
-  const dish = await Dish.findOne({ _id: req.body.id }).exec();
+  const dish = await Dish.findById(req.body.id).exec();
 
   if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
 
@@ -113,7 +113,7 @@ const deleteDish = async (req, res) => {
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
   // Attempt to find the specified dish
-  const dish = await Dish.findOne({ _id: req.body.id }).exec();
+  const dish = await Dish.findById(req.body.id).exec();
 
   if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
 
@@ -131,7 +131,7 @@ const getDish = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid Dish ID' });
 
   // Attempt to find specified dish
-  const dish = await Dish.findOne({ _id: req.params.id }).exec();
+  const dish = await Dish.findById(req.params.id).exec();
   if (!dish) {
     return res.status(204).json({ message: `Dish Not Found.` });
   }
