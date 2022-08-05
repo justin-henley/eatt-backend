@@ -15,13 +15,6 @@ const Dish = require('../model/Dish');
   history: {
     creator: String,
     createdDate: Date,
-    changelog: [
-      {
-        user: String,
-        data: String,
-        timestamp: MongooseDate,
-      },
-    ],
   },
 }; */
 
@@ -53,6 +46,7 @@ const createNewDish = async (req, res) => {
 
   // Create the new dish and return
   try {
+    // Create the dish
     const result = await Dish.create({
       zhtw: req.body.zhtw,
       pinyin: req.body.pinyin,
@@ -62,7 +56,6 @@ const createNewDish = async (req, res) => {
       en: req.body.en || null,
       history: {
         creator: req.user,
-        changelog: [],
       },
     });
 
@@ -96,10 +89,6 @@ const updateDish = async (req, res) => {
   if (req.body?.category) dish.category = req.body.category;
   if (req.body?.taigi) dish.taigi = req.body.taigi;
   if (req.body?.en) dish.en = req.body.en;
-
-  // Add entry to history
-  // TODO I think changelog should be a separate collection to keep these entries lighter?
-  dish.history.changelog = [...dish.history.changelog, { user: req.user, data: req.body, timestamp: Date.now() }];
 
   // Update the document
   const result = await dish.save();

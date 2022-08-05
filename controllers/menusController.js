@@ -9,13 +9,6 @@ const Menu = require('../model/Menu');
   history: {
     creator: String,
     createdDate: Date,
-    changelog: [
-      {
-        user: String,
-        data: String,
-        timestamp: Date,
-      },
-    ],
   },
   restaurant: {
     zhtw: String,
@@ -65,7 +58,6 @@ const createNewMenu = async (req, res) => {
     const result = await Menu.create({
       history: {
         creator: req.user,
-        changelog: [],
       },
       restaurant: {
         zhtw: req.body.restaurant.zhtw,
@@ -98,10 +90,6 @@ const updateMenu = async (req, res) => {
   if (req.body?.taigi) menu.taigi = req.body.taigi;
   if (req.body?.en) menu.en = req.body.en;
   if (req.body?.menu) menu.menu = req.body.menu;
-
-  // TODO I think changelog should be a separate collection to keep these entries lighter?
-  // Add entry history
-  menu.history.changelog = [...menu.history.changelog, { user: req.user, data: req.body, timestamp: Date.now() }];
 
   // Update the document
   const result = await menu.save();
