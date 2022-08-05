@@ -11,14 +11,6 @@ const menuSchema = new Schema({
     createdDate: {
       type: MongooseDate,
     },
-    // TODO make sure this is written correctly
-    changelog: [
-      {
-        user: String,
-        data: String,
-        timestamp: MongooseDate,
-      },
-    ],
   },
   restaurant: {
     zhtw: {
@@ -37,7 +29,7 @@ const menuSchema = new Schema({
     },
     // Should not be set manually
     // The pre-save middleware strips the diacritics from the pinyin for easier searching
-    // TODO pinyinNoDiacritics should be a virtual property!
+    // This should NOT be a virtual property, because virtuals are not stored and thus not searchable
     pinyinNoDiacritics: {
       type: String,
       default: '',

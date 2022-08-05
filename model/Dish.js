@@ -31,7 +31,7 @@ const dishSchema = new Schema({
     type: String,
     set: (x) => x.toLowerCase(),
   },
-  // TODO add user and timestamp of creation/modification. Maybe array for mods
+  // TODO move history to changelog file except for creator name and date
   // Should not be set manually
   // The pre-save middleware strips the diacritics from the pinyin for easier searching
   // TODO pinyinNoDiacritics should be a virtual property!
@@ -48,13 +48,6 @@ const dishSchema = new Schema({
       type: MongooseDate,
     },
     // TODO make sure this is written correctly
-    changelog: [
-      {
-        user: String,
-        data: String,
-        timestamp: MongooseDate,
-      },
-    ],
   },
 });
 
