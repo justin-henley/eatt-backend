@@ -1,3 +1,6 @@
+// Libraries
+const { sendStatus } = require('express/lib/response');
+
 const verifyRoles = (...allowedRoles) => {
   // Outer function allows passing in the allowed roles
   // Inner function is the middleware
