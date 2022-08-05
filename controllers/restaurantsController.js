@@ -1,4 +1,4 @@
-// TODO the whole Restaurant bit is out of date and unused. Remove or update.
+// Out of date and unused. Remove or update.
 // Models
 const Restaurant = require('../model/Restaurant');
 

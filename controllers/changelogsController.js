@@ -29,10 +29,10 @@ const Changelog = require('../model/Changelog');
     res.status(500).json({ message: 'An unknown error occured during changelog creation.' });
   }
 
-  // TODO failure should halt the change
+  
 };
  */
-// TODO Read One
+// Read One
 const getChangelog = async (req, res) => {
   // Check if an ID was provided
   if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
@@ -50,7 +50,7 @@ const getChangelog = async (req, res) => {
   res.json(log);
 };
 
-// TODO Read all or range
+// Read all or range
 const getAllChangelogs = async (req, res) => {
   let logs;
 
@@ -73,7 +73,7 @@ Changelogs should be immutable. Any truly necessary changes can be made in the d
 const updateChangelog = async (req, res) => {};
 const deleteChangelog = async (req, res) => {}; */
 
-// TODO Search
+// Search
 const searchChangelogs = async (query) => {
   // Collect any search parameters provided
   // Allows for search by category, user, entryId

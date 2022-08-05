@@ -14,8 +14,7 @@ const Menu = require('../model/Menu');
     zhtw: String,
     pinyin: String,
     en: String,
-    // TODO pinyinNoDiacritics should be a virtual property!
-    pinyinNoDiacritics: VIRTUAL PROPERTY,
+    pinyinNoDiacritics: String,
   },
   menu: [
     {
@@ -73,8 +72,7 @@ const createNewMenu = async (req, res) => {
   }
 };
 
-// TODO add history to update route
-// Menu.findOneAndUpdate is possible, but this versio allows for full validation and control
+// Menu.findOneAndUpdate is possible, but this version allows for full validation and control
 const updateMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
@@ -97,7 +95,6 @@ const updateMenu = async (req, res) => {
   res.json(result);
 };
 
-// TODO log all delete operations in a separate collection. Include full item data, plus user and timestamp. Ensure nothing can be permanently deleted thru api
 const deleteMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });

@@ -11,7 +11,7 @@ const Dish = require('../model/Dish');
   category: enum: ['rice', 'noodle', 'bread', 'soup', 'drink', 'unknown', 'other', null],
   taigi: String,
   en: String,
-  pinyinNoDiacritics: VIRTUAL PROPERTY
+  pinyinNoDiacritics: String,
   history: {
     creator: String,
     createdDate: Date,
@@ -71,7 +71,6 @@ const createNewDish = async (req, res) => {
   }
 };
 
-// TODO add history to update route
 const updateDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
@@ -96,7 +95,6 @@ const updateDish = async (req, res) => {
   res.json(result);
 };
 
-// TODO log all delete operations in a separate collection. Include full item data, plus user and timestamp. Ensure nothing can be permanently deleted thru api
 const deleteDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });

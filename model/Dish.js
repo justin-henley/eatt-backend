@@ -31,10 +31,8 @@ const dishSchema = new Schema({
     type: String,
     set: (x) => x.toLowerCase(),
   },
-  // TODO move history to changelog file except for creator name and date
   // Should not be set manually
   // The pre-save middleware strips the diacritics from the pinyin for easier searching
-  // TODO pinyinNoDiacritics should be a virtual property!
   pinyinNoDiacritics: {
     type: String,
     default: '',
