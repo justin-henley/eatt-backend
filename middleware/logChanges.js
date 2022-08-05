@@ -8,16 +8,19 @@ const Changelog = require('../model/Changelog');
 // Log any changes to documents in the DB
 const logChanges = async (req, res, next) => {
   // Check that all required parameters are provided
-  if (!req?.body?.user || !req?.body?.entryId || !req?.body?.ref || !req?.body?.data) return res.sendStatus(400);
+  if (!req?.user || !req?.body?.id || !req?.body?.data) return res.sendStatus(400);
   /* .json({ message: 'Username, entry ID, ref, and data fields required to generate changelog.' }); */
+
+  // TODO decipher ref from request
+  let ref;
 
   // Create the new log entry and return success
   try {
     const result = await Changelog.create({
-      user: req.body.user,
-      entryId: req.body.entryId,
-      ref: req.body.ref,
-      data: req.body.data,
+      user: req.user,
+      entryId: req.body.id,
+      ref: ref,
+      data: req.body,
     });
 
     next();
