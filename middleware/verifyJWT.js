@@ -1,5 +1,4 @@
 // Libraries
-const { request } = require('express');
 const { sendStatus } = require('express/lib/response');
 const jwt = require('jsonwebtoken');
 
