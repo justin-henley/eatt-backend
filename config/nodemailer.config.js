@@ -22,7 +22,7 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
             <h1>Email Confirmation</h1>
             <h2>Hello, ${name}</h2>
             <p>Thank you for signing up to Eatt. Please confirm your email by clicking on the link below, or pasting it into your browser's address bar.</p>
-            <a href=${process.env.FRONTEND_URL}/confirm/${confirmationCode}>Click here to confirm your email address</a>
+            <a href=${process.env.FRONTEND_URL}/register/${confirmationCode}>Click here to confirm your email address</a>
             </div>
         `,
     })
