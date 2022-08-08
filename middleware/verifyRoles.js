@@ -1,5 +1,4 @@
 // Libraries
-const { sendStatus } = require('express/lib/response');
 
 const verifyRoles = (...allowedRoles) => {
   // Outer function allows passing in the allowed roles
@@ -10,7 +9,7 @@ const verifyRoles = (...allowedRoles) => {
 
     const result = req.roles.map((role) => rolesArray.includes(role)).find((val) => val === true);
 
-    if (!result) return res.sendStatus(401);
+    if (!result) return res.status(401).json({ message: 'Error: You do not have permission for this operation.' });
 
     next();
   };
