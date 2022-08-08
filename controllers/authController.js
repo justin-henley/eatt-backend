@@ -16,7 +16,7 @@ const handleLogin = async (req, res) => {
 
   // Check if user exists
   const foundUser = await User.findOne({ username: user }).exec();
-  if (!foundUser) return res.sendStatus(401); // Unauthorized
+  if (!foundUser) return res.status(401).json({ message: 'Invalid username or password.' });
 
   // User found. Evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
@@ -94,7 +94,7 @@ const handleLogin = async (req, res) => {
 
     res.json({ roles, accessToken });
   } else {
-    res.sendStatus(401);
+    res.status(401).json({ message: 'Invalid username or password.' });
   }
 };
 
