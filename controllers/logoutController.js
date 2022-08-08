@@ -2,7 +2,7 @@
 const User = require('../model/User');
 
 const handleLogout = async (req, res) => {
-  // TODO On client (front end), ALSO delete the access token
+  // On client (front end), ALSO delete the access token
 
   // Check if the jwt cookie was provided
   const cookies = req.cookies;

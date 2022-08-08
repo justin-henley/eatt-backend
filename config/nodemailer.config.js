@@ -11,6 +11,7 @@ const transport = nodemailer.createTransport({
 });
 
 // TODO Should the link just point to the backend with a redirect link?
+// TODO Decorate the email a little more
 module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
   console.log('sending confirmation email');
   transport
