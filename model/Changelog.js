@@ -14,6 +14,7 @@ const changelogSchema = new Schema({
     type: ObjectID,
     required: true,
   }, // id of the item changed
+  // TODO Cannot find a way to populate this dynamically like in Menu. The ref must be a string in the schema.
   ref: {
     type: String,
     enum: ['Dish', 'Menu', 'Restaurant'],
