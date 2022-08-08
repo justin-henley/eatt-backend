@@ -11,9 +11,11 @@ const handleNewUser = async (req, res) => {
   const { user, pwd, email } = req.body;
   if (!user || !pwd) return res.status(400).json({ message: 'Username and password are required.' });
 
-  // Check for duplicate usernames in database
-  const duplicate = await User.findOne({ username: user }).exec();
-  if (duplicate) return res.sendStatus(409); // Conflict
+  // Check for duplicate usernames or emails in database. Both should be unique.
+  const duplicateUser = await User.findOne({ username: user }).exec();
+  const duplicateEmail = await User.findOne({ email: email }).exec();
+  if (duplicateUser || duplicateEmail)
+    return res.status(409).json({ message: `${duplicateEmail ? 'Email' : 'Username'} already in use.` }); // Conflict
   try {
     // Encrypt the password
     const hashedPwd = await bcrypt.hash(pwd, 10);
