@@ -1,4 +1,5 @@
 // Libraries
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 // Configured mailer
 const nodemailer = require('../config/nodemailer.config');
@@ -40,9 +41,11 @@ const handleNewUser = async (req, res) => {
 
 const verifyUser = async (req, res) => {
   // Find the user from the verification code
-  const user = User.findOne({ confirmationCode: req.params.confirmationCode });
-
+  const user = await User.findOne({ confirmationCode: req.params.confirmationCode });
+  // User Not Found
   if (!user) return res.status(404).json({ message: 'User not found.' });
+  // User found, but already activated
+  if (user.status === 'Active') return res.status(409).json({ message: 'User already activated.' });
 
   user.status = 'Active';
   try {
@@ -52,7 +55,7 @@ const verifyUser = async (req, res) => {
     // Announce success
     return res.status(200).json({ message: 'User confirmed, you may log in.' });
   } catch (error) {
-    return res.status(500).json({ message: error });
+    return res.status(500).json({ message: `Error: ${error}` });
   }
 };
 
