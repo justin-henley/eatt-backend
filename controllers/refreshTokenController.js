@@ -22,6 +22,7 @@ const handleRefreshToken = async (req, res) => {
   // If no user is found with this refresh token, that token has already been used and invalidated
   // It must have been captured maliciously and someone is attempting to reuse it
   if (!foundUser) {
+    // TODO see resetController for the fix. Can't send the response from inside the verify argument function
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
       if (err) return res.sendStatus(403); // Forbidden (Expired)
       console.log('Attempted refresh token reuse detected!');
