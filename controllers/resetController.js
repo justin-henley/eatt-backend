@@ -65,18 +65,15 @@ const handleReset = async (req, res) => {
   // Return if the token could not be decoded
   if (reqToken.err) return res.status(403).json('Invalid or expired token.');
 
-  try {
-    // Search ResetTokens collection for this user with this token that has not expired
-    const foundToken = await ResetToken.findOne({ userId: reqToken.userId });
-    // Token not found
-    if (!foundToken) return res.status(403).json({ message: 'Invalid or expired token.' });
-  } catch (error) {
-    return res.status(500).json({ message: 'Error: ' });
-  }
+  // Search ResetTokens collection for this user with this token that has not expired
+  const foundToken = await ResetToken.findOne({ userId: reqToken.userId });
+  // Token not found
+  if (!foundToken) return res.status(403).json({ message: 'Invalid or expired token.' });
 
   try {
     // If found, reset user password to the one in the request
     const user = await User.findById(foundToken.userId).exec(); // Find user
+
     const hashedNewPwd = await bcrypt.hash(req.body.pwd, 10); // Encrypt the password
     user.password = hashedNewPwd; // Replace the password
     await user.save(); // Save the user
@@ -87,7 +84,7 @@ const handleReset = async (req, res) => {
     // Announce success
     return res.status(200).json({ message: 'Password updated. You may now log in with your new password.' });
   } catch (error) {
-    return res.status(500).json({ message: 'Error: ' });
+    return res.status(500).json({ message: `Error: ${error}` });
   }
 };
 
