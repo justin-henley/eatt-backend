@@ -9,7 +9,7 @@ const credentials = (req, res, next) => {
   } else {
     // Allow all origins for non-credentialed requests
     // TODO should this be handled in the cors middleware?
-    res.header('Access-Control-Allow-Origin', '*');
+    //res.header('Access-Control-Allow-Origin', '*');
   }
 
   next();
