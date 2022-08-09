@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 // TODO Should the link just point to the backend with a redirect link?
 // TODO Decorate the email a little more
 module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
-  console.log('sending confirmation email');
+  /* console.log(`sending confirmation email`); */
   transport
     .sendMail({
       from: process.env.EMAIL_USER,
@@ -28,4 +28,22 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
         `,
     })
     .catch((err) => console.log(err));
+};
+
+// Password Reset Email
+module.exports.sendPasswordResetEmail = (name, email, resetToken) => {
+  console.log(`sending password reset email to ${name}: ${email}`);
+  transport.sendMail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Password Reset Link',
+    html: `
+      <div>
+      <h1>Hello, ${name}.</h1>
+      <br />
+      <a href=${process.env.FRONTEND_URL}/reset/${resetToken}>Click here to reset your password.</a>
+      <br />
+      <p>If you did not request a password reset, please <a href='mailto: ${process.env.EMAIL_USER}'>reach out.</a> 
+      </div>`,
+  });
 };
