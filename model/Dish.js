@@ -16,7 +16,7 @@ const dishSchema = new Schema({
   },
   meat: {
     type: String,
-    enum: ['beef', 'pork', 'bird', 'fish', 'veg', 'egg', 'unknown', 'other', null],
+    enum: ['beef', 'pork', 'bird', 'fish', 'veg', 'egg', 'unknown', 'other', 'none', null],
     //required: true,
   },
   category: {
