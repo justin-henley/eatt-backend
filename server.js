@@ -35,11 +35,11 @@ app.use(cookieParser());
 app.use('/', require('./routes/root'));
 
 // auth routes
-app.use('/register', require('./routes/register'));
-app.use('/auth', require('./routes/auth'));
-app.use('/refresh', require('./routes/refresh'));
-app.use('/logout', require('./routes/logout'));
-app.use('/reset', require('./routes/reset'));
+app.use('/register', require('./routes/auth/register'));
+app.use('/auth', require('./routes/auth/auth'));
+app.use('/refresh', require('./routes/auth/refresh'));
+app.use('/logout', require('./routes/auth/logout'));
+app.use('/reset', require('./routes/auth/reset'));
 
 // api endpoints
 app.use('/dishes', require('./routes/api/dishes'));
