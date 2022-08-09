@@ -10,10 +10,8 @@ const transport = nodemailer.createTransport({
   },
 });
 
-// TODO Should the link just point to the backend with a redirect link?
 // TODO Decorate the email a little more
 module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
-  /* console.log(`sending confirmation email`); */
   transport
     .sendMail({
       from: process.env.EMAIL_USER,
@@ -32,7 +30,6 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
 
 // Password Reset Email
 module.exports.sendPasswordResetEmail = (name, email, resetToken) => {
-  console.log(`sending password reset email to ${name}: ${email}`);
   transport.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
