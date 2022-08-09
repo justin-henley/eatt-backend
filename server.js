@@ -39,6 +39,7 @@ app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
+app.use('/reset', require('./routes/reset'));
 
 // api endpoints
 app.use('/dishes', require('./routes/api/dishes'));
