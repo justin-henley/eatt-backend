@@ -37,3 +37,5 @@ const getUserMenus = async (req, res) => {
   // Return data as json
   res.json(menus);
 };
+
+modules.export = { getUserDishes, getUserMenus };
