@@ -1,5 +1,3 @@
-// Libraries
-const mongoose = require('mongoose');
 // Models
 const Changelog = require('../model/Changelog');
 

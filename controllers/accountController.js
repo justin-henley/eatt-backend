@@ -10,7 +10,7 @@ const getUserDishes = async (req, res) => {
 
   // Get all dishes by the user
   // TODO is that search query correct?
-  console.log(req.user);
+
   const dishes = await Dish.find({ 'history.creator': req.user }).exec();
 
   // No data found
