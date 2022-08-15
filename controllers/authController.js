@@ -30,6 +30,9 @@ const handleLogin = async (req, res) => {
     // User roles
     const roles = Object.values(foundUser.roles).filter(Boolean);
 
+    // User highest role
+    const title = foundUser.roles.Admin ? 'Admin' : foundUser.roles.Editor ? 'Editor' : 'User';
+
     // Create JWTs
     const accessToken = jwt.sign(
       {
@@ -92,7 +95,7 @@ const handleLogin = async (req, res) => {
       expiresIn: refreshTokenExpiresIn,
     });
 
-    res.json({ roles, accessToken });
+    res.json({ roles, title, accessToken });
   } else {
     res.status(401).json({ message: 'Invalid username or password.' });
   }
