@@ -50,7 +50,7 @@ app.use('/dishes', require('./routes/api/dishes'));
 app.use('/menus', require('./routes/api/menus'));
 /* app.use('/restaurants', require('./routes/api/restaurants')); */
 app.use('/changelogs', require('./routes/api/changelogs'));
-app.use('/account', require('/routes/api/account'));
+app.use('/account', require('./routes/api/account'));
 
 // Universal 404 page
 app.all('*', (req, res) => {
