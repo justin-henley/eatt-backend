@@ -10,7 +10,8 @@ const getUserDishes = async (req, res) => {
 
   // Get all dishes by the user
   // TODO is that search query correct?
-  const dishes = await Dish.find({ history: { creator: req.username } });
+  console.log(req.user);
+  const dishes = await Dish.find({ 'history.creator': req.user }).exec();
 
   // No data found
   if (!dishes) {
@@ -27,7 +28,7 @@ const getUserMenus = async (req, res) => {
 
   // Get all menus by the user
   // TODO validate this search
-  const menus = await Menu.find({ history: { creator: req.username } });
+  const menus = await Menu.find({ history: { creator: req.user } }).exec();
 
   // No data found
   if (!menus) {
@@ -38,4 +39,4 @@ const getUserMenus = async (req, res) => {
   res.json(menus);
 };
 
-modules.export = { getUserDishes, getUserMenus };
+module.exports = { getUserDishes, getUserMenus };
