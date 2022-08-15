@@ -10,3 +10,5 @@ const verifyJWT = require('../../middleware/verifyJWT');
 // Authentication required for all routes
 router.route('/dishes').get(verifyJWT, accountController.getUserDishes);
 router.route('/menus').get(verifyJWT, accountController.getUserMenus);
+
+module.exports = router;
