@@ -77,22 +77,23 @@ const updateMenu = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
-  // Attempt to find the specified menu
-  const menu = await Menu.findById(req.body.id).exec();
+  try {
+    // Attempt to find the specified menu
+    const menu = await Menu.findById(req.body.id).exec();
 
-  if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
+    if (!menu) return res.status(204).json({ message: 'Menu Not Found.' });
 
-  // Update fields
-  // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
-  if (req.body?.restaurant?.zhtw) menu.zhtw = req.body.zhtw;
-  if (req.body?.taigi) menu.taigi = req.body.taigi;
-  if (req.body?.en) menu.en = req.body.en;
-  if (req.body?.menu) menu.menu = req.body.menu;
+    // Update fields
+    menu.restaurant = { ...req.body.restaurant };
+    menu.menu = [...req.body.menu];
 
-  // Update the document
-  const result = await menu.save();
+    // Update the document
+    const result = await menu.save();
 
-  res.json(result);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteMenu = async (req, res) => {
