@@ -28,7 +28,10 @@ const getUserMenus = async (req, res) => {
 
   // Get all menus by the user
   // TODO validate this search
-  const menus = await Menu.find({ history: { creator: req.user } }).exec();
+  const search = {};
+  search['history.creator'] = req.user;
+
+  const menus = await Menu.find(search, '-menu').exec();
 
   // No data found
   if (!menus) {
