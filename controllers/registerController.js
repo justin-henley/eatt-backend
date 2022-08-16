@@ -61,6 +61,4 @@ const verifyUser = async (req, res) => {
   }
 };
 
-// TODO a forgot password option to allow setting a new password
-
 module.exports = { handleNewUser, verifyUser };

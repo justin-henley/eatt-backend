@@ -45,7 +45,6 @@ const dishSchema = new Schema({
     createdDate: {
       type: MongooseDate,
     },
-    // TODO make sure this is written correctly
   },
 });
 

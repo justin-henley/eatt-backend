@@ -2,9 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { String, Boolean } = Schema.Types;
 
-// TODO email, confirmed, plus add password recovery and email confirmations
 const userSchema = new Schema({
-  // TODO do NOT expose emails to any logs or API responses.
+  // DO NOT expose emails to any logs or API responses.
   email: {
     type: String,
     required: true,

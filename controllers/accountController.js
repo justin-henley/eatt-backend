@@ -9,8 +9,6 @@ const getUserDishes = async (req, res) => {
   // Username is stored in req.username by verifyJWT middleware
 
   // Get all dishes by the user
-  // TODO is that search query correct?
-
   const dishes = await Dish.find({ 'history.creator': req.user }).exec();
 
   // No data found
@@ -27,7 +25,6 @@ const getUserMenus = async (req, res) => {
   // Username is stored in req.username by verifyJWT middleware
 
   // Get all menus by the user
-  // TODO validate this search
   const search = {};
   search['history.creator'] = req.user;
 
