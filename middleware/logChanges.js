@@ -5,7 +5,7 @@ const Changelog = require('../model/Changelog');
 const logChanges = async (req, res, next) => {
   // Check that all required parameters are provided
   if (!req?.user || !req?.body?.id) {
-    return res.status(400).json({ message: 'Username, entry ID, and data fields required to generate changelog.' });
+    return res.status(400).json({ message: 'Username and entry ID fields required to generate changelog.' });
   }
 
   // Decipher ref from request
