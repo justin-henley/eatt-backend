@@ -14,6 +14,7 @@ const logChanges = require('../../middleware/logChanges');
 
 // Authentication and authorization required for post, patch, and delete
 router
+  // TODO find a way to protect the get all route without breaking the search function
   .route('/')
   .get(dishesController.getAllDishes) // Anyone for now, but restrict if heavy usage and large database
   .post(verifyJWT, verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), dishesController.createNewDish) // Editor or Admin
