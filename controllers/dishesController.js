@@ -75,24 +75,29 @@ const updateDish = async (req, res) => {
   // Check if an ID was provided
   if (!req?.body?.id) return res.status(400).json({ message: 'ID parameter required.' });
 
-  // Attempt to find the specified dish
-  const dish = await Dish.findById(req.body.id).exec();
+  try {
+    // Attempt to find the specified dish
+    const dish = await Dish.findById(req.body.id).exec();
 
-  if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
+    if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
 
-  // Update fields
-  // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
-  if (req.body?.zhtw) dish.zhtw = req.body.zhtw;
-  if (req.body?.pinyin) dish.pinyin = req.body.pinyin;
-  if (req.body?.meat) dish.meat = req.body.meat;
-  if (req.body?.category) dish.category = req.body.category;
-  if (req.body?.taigi) dish.taigi = req.body.taigi;
-  if (req.body?.en) dish.en = req.body.en;
+    // Update fields
+    // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
+    if (req.body?.zhtw) dish.zhtw = req.body.zhtw;
+    if (req.body?.pinyin) dish.pinyin = req.body.pinyin;
+    if (req.body?.meat) dish.meat = req.body.meat;
+    if (req.body?.category) dish.category = req.body.category;
+    if (req.body?.taigi) dish.taigi = req.body.taigi;
+    if (req.body?.en) dish.en = req.body.en;
 
-  // Update the document
-  const result = await dish.save();
+    // Update the document
+    const result = await dish.save();
 
-  res.json(result);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'An unknown error occurred' });
+  }
 };
 
 const deleteDish = async (req, res) => {

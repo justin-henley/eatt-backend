@@ -93,6 +93,7 @@ const updateMenu = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: 'An unknown error occurred.' });
   }
 };
 
