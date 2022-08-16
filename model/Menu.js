@@ -38,7 +38,7 @@ const menuSchema = new Schema({
   // Menu is divided into named sections. Sections should be labelled with zhtw, en, and pinyin. No need to strip pinyin for searching
   menu: [
     {
-      categoryId: { type: Number, required: true },
+      categoryId: { type: String, required: true },
       zhtw: {
         type: String,
         required: true,
