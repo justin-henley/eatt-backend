@@ -27,17 +27,10 @@ const Menu = require('../model/Menu');
 }; */
 
 const getAllMenus = async (req, res) => {
-  let menus;
+  // Return all dishes
+  const menus = await Menu.find({}, '-menu').populate('menu.items');
 
-  // Check for a search query
-  if (Object.keys(req?.query).length !== 0) {
-    // Search based on url query
-    menus = await searchMenus({ ...req.query });
-  } else {
-    // Return all dishes
-    menus = await Menu.find({}, '-menu').populate('menu.items');
-  }
-
+  // Return results
   if (!menus) return res.status(204).json({ message: 'No menus found.' });
   res.json(menus);
 };
@@ -128,7 +121,13 @@ const getMenu = async (req, res) => {
   res.json(menu);
 };
 
-const searchMenus = async (params) => {
+const searchMenus = async (req, res) => {
+  // Check for a search query
+  if (Object.keys(req?.query).length === 0) {
+    // Return early if no search parameters were provided
+    return res.status(400).json({ message: 'Please provide a search parameter.' });
+  }
+
   // Check to see what valid search parameters were provided
   const searchParams = {};
 
@@ -150,8 +149,15 @@ const searchMenus = async (params) => {
       $options: 'i',
     };
 
+  // Check that at least one valid search paramter was found
+  if (searchParams === {}) {
+    return res.status(400).json({ message: 'Please provide a valid search parameter.' });
+  }
+
   // Perform the search with the given parameters and return the result
-  return await Menu.find(searchParams, '-menu');
+  const results = await Menu.find(searchParams, '-menu');
+  if (!results) return res.status(204).json({ message: 'No menus found.' });
+  res.json(results);
 };
 
 module.exports = {
@@ -160,4 +166,5 @@ module.exports = {
   updateMenu,
   deleteMenu,
   getMenu,
+  searchMenus,
 };
