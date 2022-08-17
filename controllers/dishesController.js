@@ -19,16 +19,8 @@ const Dish = require('../model/Dish');
 }; */
 
 const getAllDishes = async (req, res) => {
-  let dishes;
-
-  // Check for a search query
-  if (Object.keys(req?.query).length !== 0) {
-    // Search based on url query
-    dishes = await searchDishes({ ...req.query });
-  } else {
-    // Return all dishes
-    dishes = await Dish.find();
-  }
+  // Return all dishes
+  const dishes = await Dish.find();
 
   if (!dishes) return res.status(204).json({ message: 'No dishes found.' });
   res.json(dishes);
@@ -132,7 +124,13 @@ const getDish = async (req, res) => {
   res.json(dish);
 };
 
-const searchDishes = async (params) => {
+const searchDishes = async (req, res) => {
+  // Check for a search query
+  if (Object.keys(req?.query).length === 0) {
+    // Return early if no search parameters were provided
+    return res.status(400).json({ message: 'Please provide a search parameter.' });
+  }
+
   // Check to see what valid search parameters were provided
   const searchParams = {};
 
@@ -151,8 +149,16 @@ const searchDishes = async (params) => {
       $regex: params.pinyinNoDiacritics.replace(/\s/g, ''),
       $options: 'i',
     };
+
+  // Check that at least one valid search parameter was found
+  if (searchParams === {}) {
+    return res.status(400).json({ message: 'Please provide a valid search parameter.' });
+  }
+
   // Perform the search with the given parameters and return the result
-  return await Dish.find(searchParams);
+  const dishes = await Dish.find(searchParams);
+  if (!dishes) return res.status(204).json({ message: 'No dishes found.' });
+  res.json(dishes);
 };
 
 module.exports = {
@@ -161,4 +167,5 @@ module.exports = {
   updateDish,
   deleteDish,
   getDish,
+  searchDishes,
 };
