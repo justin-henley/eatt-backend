@@ -12,19 +12,18 @@ const verifyRoles = require('../../middleware/verifyRoles');
 // Logging
 const logChanges = require('../../middleware/logChanges');
 
-// Authentication and authorization required for post, patch, and delete
 router
-  // TODO find a way to protect the get all route without breaking the search function
+  // TODO allow users to edit their own menus, but only editor/admin to edit other users menus
   .route('/')
-  .get(menusController.searchMenus) // Anyone for now, but restrict if heavy usage and large database
-  .post(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ menusController.createNewMenu) // Editor or Admin
-  .patch(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ logChanges, menusController.updateMenu) // Editor or Admin
+  .get(menusController.searchMenus) // Search for menus
+  .post(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ menusController.createNewMenu) // Create a new menu
+  .patch(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ logChanges, menusController.updateMenu) // Edit an existing menu
   .delete(verifyJWT, verifyRoles(ROLES_LIST.Admin), logChanges, menusController.deleteMenu); // Admin only
 
 // Get a single menu by ID
 router.route('/:id').get(menusController.getMenu); // Anyone
 
 // Retrieve all menus
-router.route('/all').get(verifyJWT, verifyRoles(ROLES_LIST.Admin), menusController.getAllMenus);
+router.route('/all').get(verifyJWT, verifyRoles(ROLES_LIST.Admin), menusController.getAllMenus); // Admin only
 
 module.exports = router;
