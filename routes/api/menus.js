@@ -20,10 +20,10 @@ router
   .patch(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ logChanges, menusController.updateMenu) // Edit an existing menu
   .delete(verifyJWT, verifyRoles(ROLES_LIST.Admin), logChanges, menusController.deleteMenu); // Admin only
 
-// Get a single menu by ID
-router.route('/:id').get(menusController.getMenu); // Anyone
-
 // Retrieve all menus
 router.route('/all').get(verifyJWT, verifyRoles(ROLES_LIST.Admin), menusController.getAllMenus); // Admin only
+
+// Get a single menu by ID
+router.route('/:id').get(menusController.getMenu); // Anyone
 
 module.exports = router;

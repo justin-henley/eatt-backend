@@ -20,10 +20,10 @@ router
   .patch(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin),*/ logChanges, dishesController.updateDish) // Edit an existing dish
   .delete(verifyJWT, verifyRoles(ROLES_LIST.Admin), logChanges, dishesController.deleteDish); // Admin only
 
-// Returns a single dish by id
-router.route('/:id').get(dishesController.getDish); // Anyone
-
 // Retrieve all dishes
 router.route('/all').get(verifyJWT, verifyRoles(ROLES_LIST.Admin), dishesController.getAllDishes); // Admin only
+
+// Returns a single dish by id
+router.route('/:id').get(dishesController.getDish); // Anyone
 
 module.exports = router;
