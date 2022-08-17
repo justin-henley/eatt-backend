@@ -16,12 +16,15 @@ const logChanges = require('../../middleware/logChanges');
 router
   // TODO find a way to protect the get all route without breaking the search function
   .route('/')
-  .get(dishesController.getAllDishes) // Anyone for now, but restrict if heavy usage and large database
+  .get(dishesController.searchDishes) // Anyone for now, but restrict if heavy usage and large database
   .post(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), */ dishesController.createNewDish) // Editor or Admin
   .patch(verifyJWT, /* verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), logChanges, */ dishesController.updateDish) // Editor or Admin
   .delete(verifyJWT, verifyRoles(ROLES_LIST.Admin), logChanges, dishesController.deleteDish); // Admin only
 
 // Returns a single dish by id
 router.route('/:id').get(dishesController.getDish); // Anyone
+
+// Retrieve all dishes
+router.route('/all').get(verifyJWT, verifyRoles(ROLES_LIST.Admin), dishesController.getAllDishes);
 
 module.exports = router;
