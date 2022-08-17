@@ -132,6 +132,7 @@ const searchDishes = async (req, res) => {
   }
 
   // Check to see what valid search parameters were provided
+  const params = req.query;
   const searchParams = {};
 
   // TODO explore MongoDB full-text search indexes for better search results
