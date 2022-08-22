@@ -19,7 +19,7 @@ app.use(credentials);
 // Use CORS - Currently allowing only localhost and front end origins
 // TODO this is definitely allowing all origins. Is credentials messing it up with the allowed-origins header?
 app.use(cors(corsOptions));
-// TODO test. Adds status 200 to options to satisfy preflight checks
+// Adds status 200 to options to satisfy preflight checks
 app.options('/*', (_, res) => {
   res.sendStatus(200);
 });

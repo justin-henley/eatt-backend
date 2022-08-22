@@ -74,7 +74,7 @@ const updateDish = async (req, res) => {
     if (!dish) return res.status(204).json({ message: 'No dish matches ID' });
 
     // Update fields
-    // TODO there should be a way to iterate through and check values. Get the prop name and value. You've done that elsewhere in this app
+    // Fields are explicitly listed to limit search queries to these properties
     if (req.body?.zhtw) dish.zhtw = req.body.zhtw;
     if (req.body?.pinyin) dish.pinyin = req.body.pinyin;
     if (req.body?.meat) dish.meat = req.body.meat;

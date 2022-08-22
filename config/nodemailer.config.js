@@ -10,7 +10,6 @@ const transport = nodemailer.createTransport({
   },
 });
 
-// TODO Decorate the email a little more
 module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
   transport
     .sendMail({

@@ -2,37 +2,11 @@
 const mongoose = require('mongoose');
 // Models
 const Changelog = require('../model/Changelog');
-// TODO test and verify
+
 // Simplified Model
 // TODO add once stable
 
-// Create - MOVED TO MIDDLEWARE logChanges.js
-/* const createChangelog = async (req, res) => {
-  // Check that all required parameters are provided
-  if (!req?.body?.user || !req?.body?.entryId || !req?.body?.ref || !req?.body?.data)
-    return res
-      .status(400)
-      .json({ message: 'Username, entry ID, ref, and data fields required to generate changelog.' });
-
-  // Create the new log entry and return success
-  try {
-    const result = await Changelog.create({
-      user: req.body.user,
-      entryId: req.body.entryId,
-      ref: req.body.ref,
-      data: req.body.data,
-    });
-
-    res.status(201).json(result);
-  } catch (error) {
-    // Catch any errors and return failure to prevent the operation that generated the changelog
-    res.status(500).json({ message: 'An unknown error occured during changelog creation.' });
-  }
-
-  
-};
- */
-// Read One
+// Read one changlelog entry
 const getChangelog = async (req, res) => {
   // Check if an ID was provided
   if (!req?.params?.id) return res.status(400).json({ message: 'ID parameter required' });
@@ -50,7 +24,7 @@ const getChangelog = async (req, res) => {
   res.json(log);
 };
 
-// Read all or range
+// Read all changelogs or range
 const getAllChangelogs = async (req, res) => {
   let logs;
 
@@ -68,6 +42,7 @@ const getAllChangelogs = async (req, res) => {
   if (!logs) return res.status(204).json({ message: 'No changelogs found.' });
   res.json(logs);
 };
+
 /* 
 Changelogs should be immutable. Any truly necessary changes can be made in the db
 const updateChangelog = async (req, res) => {};
@@ -88,4 +63,4 @@ const searchChangelogs = async (query) => {
 };
 
 // Exports do not include search function
-module.exports = { getChangelog, getAllChangelogs /*, createChangelog, updateChangelog, deleteChangelog */ };
+module.exports = { getChangelog, getAllChangelogs };
