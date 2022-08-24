@@ -4,7 +4,17 @@ const mongoose = require('mongoose');
 const Changelog = require('../model/Changelog');
 
 // Simplified Model
-// TODO add once stable
+/* Changelog {
+  user: String, required,
+  timestamp: MongooseDate,
+  entry: {
+    id: ObjectID, required,
+    ref: String, enum: ['Dish', 'Menu', 'Restaurant'],
+  },
+  data: [Object]
+} 
+
+*/
 
 // Read one changlelog entry
 const getChangelog = async (req, res) => {
