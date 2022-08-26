@@ -1,3 +1,3 @@
-const allowedOrigins = [process.env.FRONTEND_URL];
+const allowedOrigins = [`${process.env.FRONTEND_URL}`];
 
 module.exports = allowedOrigins;
