@@ -6,6 +6,9 @@ const nodemailer = require('../config/nodemailer.config');
 // Models
 const User = require('../model/User');
 
+// TODO add passwordd regex to backend to enforce password strength
+// TODO consider removing password composition rules in favor of greater length - https://jdlt.co.uk/blog/password-security-in-2022/
+
 const handleNewUser = async (req, res) => {
   // Check if username and password were provided
   const { user, pwd, email } = req.body;
