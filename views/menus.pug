@@ -1,0 +1,15 @@
+extends layout
+
+block content 
+    table(style='width: 100%')
+        tr 
+            th Traditional Chinese 
+            th Pinyin 
+            th English
+        each menu in menus
+            tr 
+                td= menu.restaurant.zhtw
+                td= menu.restaurant.pinyin 
+                td= menu.restaurant.en
+                td
+                    a(href=`/menus/${menu.id}`) hello
