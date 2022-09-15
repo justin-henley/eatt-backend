@@ -158,7 +158,13 @@ const searchMenus = async (req, res) => {
   // Perform the search with the given parameters and return the result
   const results = await Menu.find(searchParams, '-menu');
   if (!results) return res.status(204).json({ message: 'No menus found.' });
-  res.json(results);
+
+  // Return html or json
+  if (req.accepts('html')) {
+    res.render('menus', { title: 'Menus', menus: results });
+  } else {
+    res.json(results);
+  }
 };
 
 module.exports = {
