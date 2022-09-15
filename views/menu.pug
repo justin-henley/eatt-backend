@@ -6,12 +6,12 @@ block content
     h2= menu.restaurant.en 
 
     each category in menu.menu 
-        h3 #{category.zhtw} - #{category.pinyin} - #{category.en}
-        table(style='width: 100%')
+
+        table(class='category', style='width: 100%')
             tr 
-                th Traditional Chinese 
-                th Pinyin 
-                th English
+                th= category.zhtw
+                th= category.pinyin
+                th= category.en
 
             each item in category.items
                 tr 
