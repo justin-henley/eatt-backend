@@ -159,7 +159,13 @@ const searchDishes = async (req, res) => {
   // Perform the search with the given parameters and return the result
   const dishes = await Dish.find(searchParams);
   if (!dishes) return res.status(204).json({ message: 'No dishes found.' });
-  res.json(dishes);
+
+  // Return json or html
+  if (req.accepts('html')) {
+    res.render('dishes', { title: 'Dishes', dishes: dishes });
+  } else {
+    res.json(dishes);
+  }
 };
 
 module.exports = {
