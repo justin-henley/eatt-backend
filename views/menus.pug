@@ -1,0 +1,17 @@
+extends layout
+
+block content 
+    h1=title
+    table
+        tr 
+            th Traditional Chinese 
+            th Pinyin 
+            th English
+            th Menu
+        each menu in menus
+            tr 
+                td= menu.restaurant.zhtw
+                td= menu.restaurant.pinyin 
+                td= menu.restaurant.en
+                td
+                    a(href=`/menus/${menu.id}`) view

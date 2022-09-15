@@ -118,13 +118,18 @@ const getMenu = async (req, res) => {
   }
 
   // Return the found menu
-  res.json(menu);
+  // Return html or json
+  if (req.accepts('html')) {
+    res.render('menu', { title: 'Menus', menu: menu });
+  } else {
+    res.json(menu);
+  }
 };
 
 const searchMenus = async (req, res) => {
   // Check for a search query
   if (Object.keys(req?.query).length === 0) {
-    // Return early if no search parameters were provided
+    // Return early if no search parame`ters were provided
     return res.status(400).json({ message: 'Please provide a search parameter.' });
   }
 
@@ -158,7 +163,13 @@ const searchMenus = async (req, res) => {
   // Perform the search with the given parameters and return the result
   const results = await Menu.find(searchParams, '-menu');
   if (!results) return res.status(204).json({ message: 'No menus found.' });
-  res.json(results);
+
+  // Return html or json
+  if (req.accepts('html')) {
+    res.render('menus', { title: 'Menus', menus: results });
+  } else {
+    res.json(results);
+  }
 };
 
 module.exports = {

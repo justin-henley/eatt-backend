@@ -10,6 +10,10 @@ const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials');
 const PORT = process.env.PORT || 3500;
 
+// Setup view engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
 // Connect to MongoDb
 connectDB();
 
