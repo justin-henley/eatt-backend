@@ -1,0 +1,21 @@
+extends layout
+
+block content 
+    h1= menu.restaurant.zhtw 
+    h2= menu.restaurant.pinyin 
+    h2= menu.restaurant.en 
+
+    each category in menu.menu 
+        h3 #{category.zhtw} - #{category.pinyin} - #{category.en}
+        table(style='width: 100%')
+            tr 
+                th Traditional Chinese 
+                th Pinyin 
+                th English
+
+            each item in category.items
+                tr 
+                    td= item.zhtw
+                    td= item.pinyin 
+                    td= item.en
+                    
