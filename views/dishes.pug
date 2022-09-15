@@ -1,0 +1,17 @@
+extends layout
+
+block content 
+    table(style='width: 100%')
+        tr 
+            th Traditional Chinese 
+            th Pinyin 
+            th English 
+            th Category 
+            th Protein
+        each dish in dishes
+            tr 
+                td= dish.zhtw
+                td= dish.pinyin 
+                td= dish.en
+                td= dish.category 
+                td= dish.meat
