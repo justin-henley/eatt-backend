@@ -58,11 +58,13 @@ app.use('/account', require('./routes/api/account'));
 
 // Universal 404 page
 app.all('*', (req, res) => {
-  // Set response code
-  res.status(404);
-  // Send response as JSON
-  res.json({ message: '404 Not Found' });
-  // TODO an HTML version
+  // Send HTML or JSON
+  if (req.accepts('html')) {
+    res.render('error', { title: '404', message: 'Not Found' });
+  } else {
+    // Set response code and send response as JSON
+    res.status(404).json({ message: '404 Not Found' });
+  }
 });
 
 // Announce successful database connection in console
