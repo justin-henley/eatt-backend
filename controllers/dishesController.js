@@ -133,10 +133,11 @@ const searchDishes = async (req, res) => {
 
   // Check to see what valid search parameters were provided
   const params = req.query;
+  console.log(params); // TODO remove
   const searchParams = {};
 
   // TODO explore MongoDB full-text search indexes for better search results
-
+  // TODO Server crashes if a single '?' is passed as search term for zhtw, en, or pinyins. Regex issue.
   if (params.zhtw) searchParams.zhtw = { $regex: params.zhtw };
   if (params.en) searchParams.en = { $regex: params.en, $options: 'i' };
   if (params.category) searchParams.category = params.category;
