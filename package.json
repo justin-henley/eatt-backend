@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,8 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
-    "nodemon": "latest"
-  },
-  "engines": {
-    "node": "16.x"
+    "jest": "^29.0.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
   }
 }
