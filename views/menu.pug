@@ -1,6 +1,7 @@
 extends layout
 
 block content 
+    p This menu looks nicer on the full #[a(href=`${process.env.FRONTEND_URL}/menus/${menu.id}`) Eatt website]!
     h1= menu.restaurant.zhtw 
     h2= menu.restaurant.pinyin 
     h2= menu.restaurant.en 

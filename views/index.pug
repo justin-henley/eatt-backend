@@ -1,5 +1,13 @@
 extends layout 
 
 block content 
-    h1= title 
-    p Welcome to #{title}
+    h1 Welcome to the #{title}! 
+    p  Please check out the #[a(href=process.env.FRONTEND_URL) front-end website] for a more user-friendly experience. In browsers, the back end offers a limited subset of the full REST API functionality through simple views. 
+    
+    h2 Options 
+    ul 
+        li Search for a dish 
+        li Search for a menu
+        li #[a(href="/dishes?en=") View all dishes]
+        li #[a(href="/menus?en=") View all menus]
+
